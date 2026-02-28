@@ -76,8 +76,6 @@ export function ConsentForm({
             form={form}
             onDoctorChange={onDoctorChange}
             onFormChange={(field, value) => onFormChange(field, value as FormState[typeof field])}
-            autorizacao={form.autorizacaoCheckbox}
-            onAutorizacaoChange={v => onFormChange('autorizacaoCheckbox', v)}
           />
         </div>
 

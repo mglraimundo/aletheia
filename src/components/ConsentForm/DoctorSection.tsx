@@ -6,8 +6,6 @@ interface Props {
   form: FormState;
   onDoctorChange: (field: keyof DoctorInfo, value: string) => void;
   onFormChange: (field: keyof FormState, value: string) => void;
-  autorizacao: boolean;
-  onAutorizacaoChange: (v: boolean) => void;
 }
 
 // DD/MM/YYYY → YYYY-MM-DD (for the hidden date input)
@@ -29,17 +27,11 @@ export function DoctorSection({
   form,
   onDoctorChange,
   onFormChange,
-  autorizacao,
-  onAutorizacaoChange,
 }: Props) {
   const datePickerRef = useRef<HTMLInputElement>(null);
 
   const inputClass =
     'border border-slate-300 rounded-md px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent';
-
-  const email = doctor.mecanografico
-    ? `${doctor.mecanografico}@ulscoimbra.min-saude.pt`
-    : '';
 
   return (
     <div className="flex flex-col gap-4">

@@ -2,7 +2,7 @@ import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import type { FormState } from '../../types';
 import type { DoctorInfo } from '../../types';
 import { EYE_LABELS } from '../../types';
-import { CLINICAL_FIELDS, DOCTOR_FIELDS, CHECKBOXES } from './coordinates';
+import { CLINICAL_FIELDS, DOCTOR_FIELDS } from './coordinates';
 import { layoutText, layoutSingleLine } from './textLayout';
 
 async function buildPdf(form: FormState, doctor: DoctorInfo): Promise<Uint8Array> {
