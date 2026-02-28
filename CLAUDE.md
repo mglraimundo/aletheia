@@ -9,9 +9,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-# nvm/node/npm are NOT on PATH by default — source nvm first in every shell:
-export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-
 npm run dev       # dev server at http://localhost:5173
 npm run build     # tsc -b && vite build (type-check + production build)
 npm run lint      # eslint .
@@ -54,23 +51,32 @@ interface ConsentTemplate {
   id: string;
   name: string;
   subspecialty: string;
-  aliases?: string[];     // extra search terms
-  fields: Partial<Record<keyof Omit<FormState, 'eye' | 'data' | 'autorizacaoCheckbox'>, string>>;
+  aliases?: string[];     // hidden search terms (abbreviations, synonyms)
+  fields: {
+    diagnostico?: string;
+    descricao?: string;
+    beneficios?: string;
+    riscos?: string;
+    atos?: string;
+    riscosNaoTratamento?: string;
+  };
 }
 
 interface DoctorInfo { nome: string; cedula: string; mecanografico: string; }
 
 interface FormState {
   eye: EyeSelection;
+  templateId: string;
   diagnostico: string; descricao: string; beneficios: string;
   riscos: string; atos: string; riscosNaoTratamento: string;
   data: string;  // DD/MM/YYYY
+  autorizacaoCheckbox: boolean;
 }
 ```
 
 ### Templates (`src/templates/`)
 
-One file per subspecialty. Each template pre-fills all 6 clinical fields in Portuguese. `src/templates/index.ts` exports `ALL_TEMPLATES` and `SUBSPECIALTY_ORDER`. `src/templates/cornea.ts` is an empty placeholder.
+One file per subspecialty. Each template pre-fills all 6 clinical fields in Portuguese. `src/templates/index.ts` exports `ALL_TEMPLATES` and `SUBSPECIALTY_ORDER`.
 
 To add a procedure: add an entry to the relevant subspecialty file and ensure it is included in `ALL_TEMPLATES`.
 

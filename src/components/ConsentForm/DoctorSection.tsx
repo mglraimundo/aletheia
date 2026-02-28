@@ -37,7 +37,7 @@ export function DoctorSection({
     <div className="flex flex-col gap-4">
       <div className="grid grid-cols-2 gap-4">
         <div className="flex flex-col gap-1">
-          <label htmlFor="nome" className="text-sm font-medium text-slate-600">Nome do médico</label>
+          <label htmlFor="nome" className="text-sm font-medium text-slate-600">Nome do Médico</label>
           <input
             id="nome"
             type="text"
@@ -47,7 +47,7 @@ export function DoctorSection({
           />
         </div>
         <div className="flex flex-col gap-1">
-          <label htmlFor="cedula" className="text-sm font-medium text-slate-600">Cédula OM</label>
+          <label htmlFor="cedula" className="text-sm font-medium text-slate-600">Nº Cédula OM</label>
           <input
             id="cedula"
             type="text"
@@ -60,7 +60,7 @@ export function DoctorSection({
       <div className="grid grid-cols-2 gap-4">
         <div className="flex flex-col gap-1">
           <label htmlFor="mecanografico" className="text-sm font-medium text-slate-600">
-            Mecanográfico
+            Nº Mecanográfico
           </label>
           <input
             id="mecanografico"
