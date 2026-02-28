@@ -18,9 +18,9 @@ export const SUBSPECIALTY_ORDER = [
   'Glaucoma',
   'Imunopatologia',
   'Oculoplástica',
-  'Outros',
   'Pediátrica',
   'Retina',
+  'Outros'
 ];
 
 export const ALL_TEMPLATES: ConsentTemplate[] = [
