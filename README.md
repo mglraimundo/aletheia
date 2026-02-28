@@ -88,6 +88,20 @@ If you're using a custom domain, add a `public/CNAME` file containing your domai
 
 ## Adding Procedures
 
+### Option A — Build Mode (no code required)
+
+Non-technical users can draft a new procedure template directly in the browser:
+
+1. Open the app and navigate to `/?build` (e.g. `http://localhost:5173/?build` locally, or `https://your-deployment/?build` in production)
+2. Fill in the procedure name, subspecialty, optional search aliases, and all six clinical fields
+3. Click **Pré-visualizar PDF** to confirm the text fits and looks correct (uses a placeholder doctor)
+4. Click **Descarregar JSON** to download a `.json` file with the template data
+5. Email the JSON file to the developer — they drop it into the right template file and it's live
+
+This mode is completely isolated from the main app: it shares no state and the URL query parameter (`?build`) requires no SPA routing configuration.
+
+### Option B — Edit code directly
+
 Each subspecialty has its own file under `src/templates/`. To add a new procedure, append an entry to the relevant array following the existing structure. To add a new subspecialty, create a new file, export the array, and register it in `src/templates/index.ts`.
 
 ---

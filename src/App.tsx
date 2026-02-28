@@ -1,14 +1,19 @@
 import { Header } from './components/Header';
 import { TemplateSelector } from './components/TemplateSelector';
 import { ConsentForm } from './components/ConsentForm';
+import { BuildMode } from './components/BuildMode';
 import { useDoctorInfo } from './hooks/useDoctorInfo';
 import { useFormState } from './hooks/useFormState';
 import { previewPdf, printPdf } from './lib/pdf/generatePdf';
 import type { FormState } from './types';
 
 export default function App() {
+  const isBuildMode = new URLSearchParams(window.location.search).has('build');
+
   const { doctor, updateDoctor } = useDoctorInfo();
   const { form, loadTemplate, resetForm, setField, setEye } = useFormState();
+
+  if (isBuildMode) return <BuildMode />;
 
   function handleFormChange(field: keyof FormState, value: FormState[keyof FormState]) {
     setField(field, value);
