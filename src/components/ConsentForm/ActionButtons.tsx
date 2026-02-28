@@ -25,7 +25,7 @@ export function ActionButtons({ onPreview, onPrint }: Props) {
   async function handle(action: 'preview' | 'print', fn: () => Promise<void>) {
     setLoading(action);
     try {
-      await copyToClipboard();
+      if (action === 'print') await copyToClipboard();
       await fn();
     } finally {
       setLoading(null);
