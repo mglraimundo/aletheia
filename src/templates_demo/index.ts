@@ -8,11 +8,22 @@ import outros from './outros';
 import pediatrica from './pediatrica';
 import retina from './retina';
 import type { ConsentTemplate } from '../types';
-import * as demo from '../templates_demo/index';
 
 export { cir, cornea, estrabismo, glaucoma, imunopatologia, oculoplastica, outros, pediatrica, retina };
 
-const realTemplates: ConsentTemplate[] = [
+export const SUBSPECIALTY_ORDER = [
+  'CIR',
+  'Córnea',
+  'Estrabismo',
+  'Glaucoma',
+  'Imunopatologia',
+  'Oculoplástica',
+  'Pediátrica',
+  'Retina',
+  'Outros'
+];
+
+export const ALL_TEMPLATES: ConsentTemplate[] = [
   ...cir,
   ...cornea,
   ...estrabismo,
@@ -23,21 +34,3 @@ const realTemplates: ConsentTemplate[] = [
   ...pediatrica,
   ...retina,
 ];
-
-const realOrder = [
-  'CIR',
-  'Córnea',
-  'Estrabismo',
-  'Glaucoma',
-  'Imunopatologia',
-  'Oculoplástica',
-  'Outros',
-  'Pediátrica',
-  'Retina',
-];
-
-// Remove this block (+ templates_demo/) when rolling out for real
-const isDev = new URLSearchParams(window.location.search).has('dev');
-
-export const ALL_TEMPLATES: ConsentTemplate[] = isDev ? realTemplates : demo.ALL_TEMPLATES;
-export const SUBSPECIALTY_ORDER: string[] = isDev ? realOrder : demo.SUBSPECIALTY_ORDER;
