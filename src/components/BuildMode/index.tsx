@@ -188,18 +188,18 @@ export function BuildMode() {
           <ClinicalFields form={formForPreview} onChange={handleClinicalChange} />
         </section>
 
-        <div className="flex gap-3">
+        <div className="flex gap-3 justify-end">
           <button
             onClick={handlePreview}
             disabled={isPreviewing}
-            className="flex-1 py-2.5 px-4 rounded-lg border border-slate-300 text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-5 py-2.5 bg-white border border-sky-300 text-sky-700 rounded-lg text-sm font-medium hover:bg-sky-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isPreviewing ? 'A gerar...' : 'Pré-visualizar PDF'}
+            {isPreviewing ? 'A gerar...' : 'Pré-visualizar'}
           </button>
           <button
             onClick={handleDownload}
             disabled={!canDownload}
-            className="flex-1 py-2.5 px-4 rounded-lg text-sm font-medium text-white bg-sky-600 hover:bg-sky-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            className="px-6 py-2.5 bg-sky-600 hover:bg-sky-700 text-white rounded-lg text-sm font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
             Descarregar JSON
           </button>
