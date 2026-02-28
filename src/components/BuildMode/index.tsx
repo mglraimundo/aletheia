@@ -54,6 +54,7 @@ export function BuildMode() {
 
   const formForPreview: FormState = {
     eye: '',
+    templateId: '',
     diagnostico: state.diagnostico,
     descricao: state.descricao,
     beneficios: state.beneficios,
