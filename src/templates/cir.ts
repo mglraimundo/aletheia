@@ -29,13 +29,13 @@ const templates: ConsentTemplate[] = [
   },
   {
     id: 'icl',
-    name: 'ICL (Lente Fácica)',
+    name: 'ICL (Lente Fáquica)',
     subspecialty: 'CIR',
-    aliases: ['lente facica', 'lente fácica', 'implantable collamer', 'visian', 'miopia', 'hipermetropia', 'astigmatismo', 'refrativa'],
+    aliases: ['lente facica', 'lente fáquica', 'implantable collamer', 'visian', 'miopia', 'hipermetropia', 'astigmatismo', 'refrativa'],
     fields: {
-      diagnostico: 'Ametropia (miopia, hipermetropia e/ou astigmatismo) com indicação para implante de lente fácica ICL',
+      diagnostico: 'Ametropia (miopia, hipermetropia e/ou astigmatismo) com indicação para implante de lente fáquica ICL',
       descricao:
-        'Implante de lente fácica de câmara posterior (ICL — Implantable Collamer Lens) para correcção de ametropia. ' +
+        'Implante de lente fáquica de câmara posterior (ICL — Implantable Collamer Lens) para correcção de ametropia. ' +
         'A lente é colocada entre a íris e o cristalino através de uma microincisão, sem remoção de tecido ocular.',
       beneficios:
         'Correcção de ametropias elevadas não adequadas para laser. Procedimento reversível. ' +

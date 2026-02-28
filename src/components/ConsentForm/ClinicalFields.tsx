@@ -4,6 +4,7 @@ import { Textarea } from '../ui/Textarea';
 interface Props {
   form: FormState;
   onChange: (field: keyof FormState, value: string) => void;
+  required?: boolean;
 }
 
 const FIELDS: { key: keyof FormState; label: string }[] = [
@@ -15,7 +16,7 @@ const FIELDS: { key: keyof FormState; label: string }[] = [
   { key: 'riscosNaoTratamento', label: 'Riscos de não tratamento' },
 ];
 
-export function ClinicalFields({ form, onChange }: Props) {
+export function ClinicalFields({ form, onChange, required }: Props) {
   return (
     <div className="flex flex-col gap-4">
       {FIELDS.map(({ key, label }) => (
@@ -26,6 +27,7 @@ export function ClinicalFields({ form, onChange }: Props) {
           value={form[key] as string}
           onChange={e => onChange(key, e.target.value)}
           rows={3}
+          required={required}
         />
       ))}
     </div>

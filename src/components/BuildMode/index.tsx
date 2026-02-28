@@ -117,7 +117,15 @@ export function BuildMode() {
     URL.revokeObjectURL(url);
   }
 
-  const canDownload = state.name.trim() !== '' && state.subspecialty !== '';
+  const canDownload =
+    state.name.trim() !== '' &&
+    state.subspecialty !== '' &&
+    state.diagnostico.trim() !== '' &&
+    state.descricao.trim() !== '' &&
+    state.beneficios.trim() !== '' &&
+    state.riscos.trim() !== '' &&
+    state.atos.trim() !== '' &&
+    state.riscosNaoTratamento.trim() !== '';
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
@@ -143,7 +151,7 @@ export function BuildMode() {
                   value={state.name}
                   onChange={e => setState(prev => ({ ...prev, name: e.target.value }))}
                   className="border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                  placeholder="ex: Facoemulsificação com implante de LIO"
+                  placeholder="ex: Facoemulsificação + LIO"
                 />
                 {state.name && (
                   <p className="text-xs text-slate-400 mt-0.5">
@@ -178,14 +186,14 @@ export function BuildMode() {
                   value={state.aliases}
                   onChange={e => setState(prev => ({ ...prev, aliases: e.target.value }))}
                   className="border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                  placeholder="ex: faco, phaco, catarata — separados por vírgula"
+                  placeholder="ex: faco, catarata — separados por vírgula"
                 />
               </div>
             </div>
 
             <hr className="border-slate-100" />
 
-            <ClinicalFields form={formForPreview} onChange={handleClinicalChange} />
+            <ClinicalFields form={formForPreview} onChange={handleClinicalChange} required />
           </div>
         </section>
 
