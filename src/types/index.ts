@@ -42,6 +42,7 @@ export interface DoctorInfo {
 
 export interface FormState {
   eye: EyeSelection;
+  templateId: string;
   diagnostico: string;
   descricao: string;
   beneficios: string;

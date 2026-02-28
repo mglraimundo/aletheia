@@ -8,7 +8,7 @@ export function Header() {
           className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
         />
         <div>
-          <h1 className="text-xl font-bold text-slate-800 leading-tight">Consentimentos Informados · Aletheia</h1>
+          <h1 className="text-xl font-bold text-slate-800 leading-tight">Consentimento Informado · Aletheia</h1>
           <p className="text-sm text-slate-500 leading-tight">
             Serviço de Oftalmologia · ULS Coimbra
           </p>

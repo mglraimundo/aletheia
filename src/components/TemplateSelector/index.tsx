@@ -23,21 +23,35 @@ export function TemplateSelector({ onSelect }: Props) {
     else localStorage.removeItem(TAB_KEY);
   }
 
+  const q = query.toLowerCase();
+
+  const matchesQuery = (t: ConsentTemplate) =>
+    !query ||
+    t.name.toLowerCase().includes(q) ||
+    t.subspecialty.toLowerCase().includes(q) ||
+    t.aliases?.some(a => a.toLowerCase().includes(q));
+
   const filtered = ALL_TEMPLATES.filter(t => {
-    const q = query.toLowerCase();
-    const matchesQuery =
-      !query ||
-      t.name.toLowerCase().includes(q) ||
-      t.subspecialty.toLowerCase().includes(q) ||
-      t.aliases?.some(a => a.toLowerCase().includes(q));
     const matchesSub = !activeSubspecialty || t.subspecialty === activeSubspecialty;
-    return matchesQuery && matchesSub;
+    return matchesQuery(t) && matchesSub;
   });
 
   // Respect SUBSPECIALTY_ORDER for display
   const subspecialties = SUBSPECIALTY_ORDER.filter(s =>
     ALL_TEMPLATES.some(t => t.subspecialty === s),
   );
+
+  // Per-subspecialty match counts (only when a query is active)
+  const queryCounts: Record<string, number> | undefined = query
+    ? Object.fromEntries(
+        subspecialties.map(s => [
+          s,
+          ALL_TEMPLATES.filter(t => t.subspecialty === s && matchesQuery(t)).length,
+        ]),
+      )
+    : undefined;
+
+  const showEmptyState = !query && activeSubspecialty === null;
 
   return (
     <section className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
@@ -52,8 +66,13 @@ export function TemplateSelector({ onSelect }: Props) {
           subspecialties={subspecialties}
           active={activeSubspecialty}
           onChange={handleTabChange}
+          counts={queryCounts}
         />
-        {filtered.length > 0 ? (
+        {showEmptyState ? (
+          <p className="text-sm text-slate-400 text-center py-8">
+            Seleccione uma subespecialidade ou pesquise um procedimento.
+          </p>
+        ) : filtered.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {filtered.map(t => (
               <TemplateCard key={t.id} template={t} onSelect={onSelect} />

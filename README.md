@@ -80,6 +80,14 @@ If you're using a custom domain, add a `public/CNAME` file containing your domai
 
 ---
 
+## The Name
+
+*Aletheia* (ἀλήθεια) is an ancient Greek concept meaning truth, disclosure, and unconcealment. The philosopher Martin Heidegger used it to describe the act of bringing what is hidden into the open — revealing reality as it is, without distortion.
+
+In the context of medical informed consent, the name captures the ethical core of the practice: the obligation to reveal to the patient everything they need to know about their condition, the proposed procedure, its risks, its alternatives, and the consequences of non-treatment. Consent without full disclosure is not consent.
+
+---
+
 ## Base PDF
 
 `public/base.pdf` is the official DGS 015/2013 informed consent form with ULS Coimbra branding. It is a publicly available document and is included in this repository.

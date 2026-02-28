@@ -1,4 +1,5 @@
 import { Header } from './components/Header';
+import { Footer } from './components/Footer';
 import { TemplateSelector } from './components/TemplateSelector';
 import { ConsentForm } from './components/ConsentForm';
 import { BuildMode } from './components/BuildMode';
@@ -35,17 +36,7 @@ export default function App() {
           onPrint={() => printPdf(form, doctor)}
         />
       </main>
-      <footer className="text-center flex flex-col gap-1 pt-2 pb-8">
-        <a
-          href="https://github.com/mglraimundo/aletheia"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs font-medium text-slate-500 hover:text-sky-600 transition-colors"
-        >
-          Aletheia — Plataforma de Consentimentos Informados
-        </a>
-        <p className="text-xs text-slate-400">Desenvolvido por Miguel Raimundo</p>
-      </footer>
+      <Footer />
     </div>
   );
 }

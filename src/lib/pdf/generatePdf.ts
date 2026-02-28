@@ -1,9 +1,23 @@
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
-import type { FormState } from '../../types';
+import type { FormState, EyeSelection } from '../../types';
 import type { DoctorInfo } from '../../types';
 import { EYE_LABELS } from '../../types';
 import { CLINICAL_FIELDS, DOCTOR_FIELDS } from './coordinates';
 import { layoutText, layoutSingleLine } from './textLayout';
+
+const EYE_PREFIX: Record<Exclude<EyeSelection, ''>, string> = {
+  'direito':              'od',
+  'esquerdo':             'oe',
+  'bilateral-simultaneo': 'ode-sim',
+  'bilateral-sequencial': 'ode-seq',
+};
+
+function buildFilename(form: FormState): string {
+  const parts: string[] = [];
+  if (form.eye) parts.push(EYE_PREFIX[form.eye]);
+  if (form.templateId) parts.push(form.templateId);
+  return parts.join('-') || 'consentimento-informado';
+}
 
 async function buildPdf(form: FormState, doctor: DoctorInfo): Promise<Uint8Array> {
   // 1. Load base PDF
@@ -122,6 +136,7 @@ async function buildPdf(form: FormState, doctor: DoctorInfo): Promise<Uint8Array
   //   }
   // }
 
+  outDoc.setTitle(buildFilename(form));
   return outDoc.save();
 }
 
@@ -138,6 +153,10 @@ export async function printPdf(form: FormState, doctor: DoctorInfo): Promise<voi
   const blob = new Blob([new Uint8Array(bytes)], { type: 'application/pdf' });
   const url = URL.createObjectURL(blob);
 
+  const filename = buildFilename(form);
+  const prevTitle = document.title;
+  document.title = filename;
+
   const iframe = document.createElement('iframe');
   iframe.style.display = 'none';
   iframe.src = url;
@@ -150,5 +169,6 @@ export async function printPdf(form: FormState, doctor: DoctorInfo): Promise<voi
       // Fallback for browsers that block iframe print
       window.open(url, '_blank');
     }
+    setTimeout(() => { document.title = prevTitle; }, 1000);
   };
 }

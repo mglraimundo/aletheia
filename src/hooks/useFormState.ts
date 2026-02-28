@@ -12,6 +12,7 @@ function todayFormatted(): string {
 function blankForm(): FormState {
   return {
     eye: '',
+    templateId: '',
     diagnostico: '',
     descricao: '',
     beneficios: '',
@@ -31,6 +32,7 @@ export function useFormState() {
       ...blankForm(),
       data: prev.data,
       eye: prev.eye,
+      templateId:          template.id,
       diagnostico:         template.fields.diagnostico         ?? '',
       descricao:           template.fields.descricao           ?? '',
       beneficios:          template.fields.beneficios          ?? '',
