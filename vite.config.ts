@@ -12,7 +12,7 @@ export default defineConfig({
       manifest: {
         name: 'Aletheia — Consentimento Informado',
         short_name: 'Aletheia',
-        description: 'Formulários de consentimento informado DGS 015/2013 — Oftalmologia ULS Coimbra',
+        description: 'Formulários de consentimento informado para o serviço de Oftalmologia da ULS Coimbra',
         start_url: '/',
         display: 'standalone',
         background_color: '#f8fafc',

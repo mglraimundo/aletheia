@@ -32,7 +32,7 @@ export function ConsentForm({
           <h2 className="text-sm font-semibold text-sky-700 uppercase tracking-wide">
             Consentimento Informado
           </h2>
-          <p className="text-xs text-sky-600 mt-0.5">DGS 015/2013</p>
+          <p className="text-xs text-sky-600 mt-0.5">Norma DGS nº 015/2013</p>
         </div>
         <button
           onClick={onClear}
