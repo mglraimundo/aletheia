@@ -8,7 +8,10 @@ export function Header() {
           className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
         />
         <div>
-          <h1 className="text-xl font-bold text-slate-800 leading-tight">Consentimento Informado · Aletheia</h1>
+          <h1 className="text-xl font-bold text-slate-800 leading-tight">
+            <span className="sm:hidden">Consentimento · Aletheia</span>
+            <span className="hidden sm:inline">Consentimento Informado · Aletheia</span>
+          </h1>
           <p className="text-sm text-slate-500 leading-tight">
             Serviço de Oftalmologia · ULS Coimbra
           </p>

@@ -30,7 +30,7 @@ export function ConsentForm({
       <div className="bg-sky-50 border-b border-sky-100 px-6 py-4 flex items-center justify-between">
         <div>
           <h2 className="text-sm font-semibold text-sky-700 uppercase tracking-wide">
-            Formulário de Consentimento Informado
+            Consentimento Informado
           </h2>
           <p className="text-xs text-sky-600 mt-0.5">DGS 015/2013</p>
         </div>

@@ -57,7 +57,7 @@ export function TemplateSelector({ onSelect }: Props) {
     <section className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
       <div className="bg-sky-50 border-b border-sky-100 px-6 py-4">
         <h2 className="text-sm font-semibold text-sky-700 uppercase tracking-wide">
-          Seleccionar Procedimento
+          Procedimento
         </h2>
       </div>
       <div className="p-6 flex flex-col gap-4">
