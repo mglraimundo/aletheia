@@ -68,7 +68,15 @@ The `dist/` folder contains static files that can be served by any web server �
 
 ### Deploy to GitHub Pages
 
-The repository includes a GitHub Actions workflow that builds and deploys automatically on every push to `main`. To enable it, go to **Settings → Pages → Build and deployment → Source** and select **GitHub Actions**.
+The repository includes a ready-to-use GitHub Actions workflow (`.github/workflows/deploy.yml`) that builds and publishes the app automatically on every push to `main` — no manual build step needed.
+
+**One-time setup:**
+
+1. Go to your repository on GitHub
+2. **Settings → Pages → Build and deployment → Source** → select **GitHub Actions**
+3. Push any commit to `main` — the workflow runs, and your app is live
+
+If you're using a custom domain, add a `public/CNAME` file containing your domain (e.g. `aletheia.example.com`) and configure the DNS to point to GitHub Pages.
 
 ---
 
