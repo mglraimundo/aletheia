@@ -1,5 +1,5 @@
 const NOTE =
-  'Conceito grego que significa verdade, revelação. Usado por Heidegger para descrever o acto de tornar visível o que estava oculto. No contexto do consentimento informado, representa a obrigação ética de revelar ao doente tudo o que precisa de saber.';
+  'Conceito grego que significa verdade. Usado por Heidegger para descrever o acto de tornar visível o que estava oculto — no consentimento informado, a obrigação ética de revelar ao doente tudo o que precisa de saber.';
 
 export function Footer() {
   return (
