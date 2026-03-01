@@ -9,7 +9,7 @@ export function loadDoctorInfo(): DoctorInfo {
   } catch {
     // ignore
   }
-  return { nome: '', cedula: '', mecanografico: '' };
+  return { name: '', licenseNumber: '', staffId: '' };
 }
 
 export function saveDoctorInfo(info: DoctorInfo): void {

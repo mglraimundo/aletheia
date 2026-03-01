@@ -6,10 +6,13 @@ const REGISTO_TEXT =
 interface Props {
   onPreview: () => Promise<void>;
   onPrint: () => Promise<void>;
+  disabled?: boolean;
+  calibrateMode?: boolean;
+  onCalibrate?: () => Promise<void>;
 }
 
-export function ActionButtons({ onPreview, onPrint }: Props) {
-  const [loading, setLoading] = useState<'preview' | 'print' | null>(null);
+export function ActionButtons({ onPreview, onPrint, disabled, calibrateMode, onCalibrate }: Props) {
+  const [loading, setLoading] = useState<'preview' | 'print' | 'calibrate' | null>(null);
   const [copied, setCopied] = useState<'success' | 'error' | false>(false);
 
   async function copyToClipboard() {
@@ -23,7 +26,7 @@ export function ActionButtons({ onPreview, onPrint }: Props) {
     }
   }
 
-  async function handle(action: 'preview' | 'print', fn: () => Promise<void>) {
+  async function handle(action: 'preview' | 'print' | 'calibrate', fn: () => Promise<void>) {
     setLoading(action);
     try {
       if (action === 'print') await copyToClipboard();
@@ -35,9 +38,25 @@ export function ActionButtons({ onPreview, onPrint }: Props) {
 
   return (
     <div className="flex gap-3 justify-end">
+      {calibrateMode && onCalibrate && (
+        <button
+          onClick={() => handle('calibrate', onCalibrate)}
+          disabled={loading !== null}
+          className="flex items-center gap-2 px-2.5 sm:px-5 py-2.5 bg-white border border-amber-400 text-amber-700 rounded-lg text-sm font-medium hover:bg-amber-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="22" y1="12" x2="18" y2="12"/>
+            <line x1="6" y1="12" x2="2" y2="12"/>
+            <line x1="12" y1="6" x2="12" y2="2"/>
+            <line x1="12" y1="22" x2="12" y2="18"/>
+          </svg>
+          <span className="hidden sm:inline">{loading === 'calibrate' ? 'A gerar...' : 'Calibrar'}</span>
+        </button>
+      )}
       <button
         onClick={() => handle('preview', onPreview)}
-        disabled={loading !== null}
+        disabled={loading !== null || !!disabled}
         className="flex items-center gap-2 px-2.5 sm:px-5 py-2.5 bg-white border border-sky-300 text-sky-700 rounded-lg text-sm font-medium hover:bg-sky-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -59,7 +78,7 @@ export function ActionButtons({ onPreview, onPrint }: Props) {
       </button>
       <button
         onClick={() => handle('print', onPrint)}
-        disabled={loading !== null}
+        disabled={loading !== null || !!disabled}
         className="flex items-center gap-2 px-2.5 sm:px-6 py-2.5 bg-sky-600 hover:bg-sky-700 text-white rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

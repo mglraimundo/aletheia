@@ -2,10 +2,10 @@ import type { EyeSelection } from '../../types';
 import { EYE_ORDER } from '../../types';
 
 const EYE_DISPLAY: Record<Exclude<EyeSelection, ''>, string> = {
-  'direito':               'Direito',
-  'esquerdo':              'Esquerdo',
-  'bilateral-sequencial':  'Bilateral (sequencial)',
-  'bilateral-simultaneo':  'Bilateral (simultâneo)',
+  'od':               'Direito',
+  'os':               'Esquerdo',
+  'ou-sequential':    'Bilateral (sequencial)',
+  'ou-simultaneous':  'Bilateral (simultâneo)',
 };
 
 interface Props {

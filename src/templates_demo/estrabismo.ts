@@ -7,20 +7,20 @@ const templates: ConsentTemplate[] = [
     subspecialty: 'Estrabismo',
     aliases: ['estrabismo', 'esotropia', 'exotropia', 'desvio ocular', 'estrabismo horizontal'],
     fields: {
-      diagnostico: 'Estrabismo horizontal (esotropia ou exotropia) com indicação cirúrgica',
-      descricao:
+      diagnosis: 'Estrabismo horizontal (esotropia ou exotropia) com indicação cirúrgica',
+      description:
         'Cirurgia de estrabismo horizontal por reposicionamento de músculo(s) recto(s) medial(is) e/ou lateral(is). ' +
         'Pode incluir recessão (recuo do músculo) e/ou ressecção (encurtamento do músculo) conforme o tipo de desvio.',
-      beneficios:
+      benefits:
         'Correcção ou melhoria do alinhamento ocular com melhoria estética e funcional. ' +
         'Potencial recuperação da visão binocular em casos seleccionados.',
-      riscos:
+      risks:
         'Sobrecorrecção ou subcorrecção com necessidade de reintervenção, diplopia, infecção, ' +
         'cicatriz conjuntival, perfuração escleral (rara), alteração da motilidade ocular.',
-      atos:
+      alternatives:
         'Cirurgia dos músculos extraoculares sob anestesia geral. Recessão e/ou ressecção dos músculos afectados. ' +
         'Sutura ajustável no pós-operatório imediato (se indicada).',
-      riscosNaoTratamento:
+      risksOfNoTreatment:
         'Manutenção do desvio com impacto estético, ambliopia progressiva e ausência de visão binocular.',
     },
   },
@@ -30,20 +30,20 @@ const templates: ConsentTemplate[] = [
     subspecialty: 'Estrabismo',
     aliases: ['estrabismo vertical', 'hipertropia', 'hipotropia', 'obliquo', 'musculo vertical'],
     fields: {
-      diagnostico: 'Estrabismo vertical (hipertropia, hipotropia ou disfunção de músculo oblíquo) com indicação cirúrgica',
-      descricao:
+      diagnosis: 'Estrabismo vertical (hipertropia, hipotropia ou disfunção de músculo oblíquo) com indicação cirúrgica',
+      description:
         'Cirurgia dos músculos extraoculares verticais (rectos superiores, inferiores e/ou oblíquos) ' +
         'por recessão, ressecção ou myectomia, para correcção do desvio vertical.',
-      beneficios:
+      benefits:
         'Correcção do desvio vertical com melhoria do alinhamento e eliminação da posição de cabeça compensatória. ' +
         'Melhoria da visão binocular em casos seleccionados.',
-      riscos:
+      risks:
         'Diplopia, sobrecorrecção ou subcorrecção, cicatriz conjuntival, infecção, ' +
         'alteração da motilidade ocular, perfuração escleral.',
-      atos:
+      alternatives:
         'Cirurgia dos músculos extraoculares verticais sob anestesia geral. ' +
         'Recessão/ressecção/myectomia conforme o tipo de disfunção.',
-      riscosNaoTratamento:
+      risksOfNoTreatment:
         'Manutenção do desvio vertical com diplopia, posição viciosa de cabeça e impacto funcional e estético.',
     },
   },
@@ -53,20 +53,20 @@ const templates: ConsentTemplate[] = [
     subspecialty: 'Estrabismo',
     aliases: ['botox estrabismo', 'toxina botulinica', 'botulinica', 'injecao muscular', 'botulinum'],
     fields: {
-      diagnostico: 'Estrabismo com indicação para tratamento com toxina botulínica como alternativa ou complemento à cirurgia',
-      descricao:
+      diagnosis: 'Estrabismo com indicação para tratamento com toxina botulínica como alternativa ou complemento à cirurgia',
+      description:
         'Injecção de toxina botulínica tipo A no(s) músculo(s) extraocular(es) afectado(s) para paralisia temporária ' +
         'e reequilíbrio do alinhamento ocular. Realizado sob orientação electromiográfica ou ecográfica.',
-      beneficios:
+      benefits:
         'Correcção não cirúrgica do estrabismo. Procedimento reversível. ' +
         'Útil no estrabismo agudo, paralítico ou como complemento de cirurgia.',
-      riscos:
+      risks:
         'Ptose transitória, diplopia transitória, sobrecorrecção, efeito limitado no tempo (3–4 meses), ' +
         'hematoma, necessidade de repetição.',
-      atos:
+      alternatives:
         'Injecção electromioguidada de toxina botulínica tipo A no músculo extraocular. ' +
         'Anestesia tópica e sedação ligeira se necessário.',
-      riscosNaoTratamento:
+      risksOfNoTreatment:
         'Manutenção do desvio ocular com impacto funcional, estético e risco de ambliopia.',
     },
   },
@@ -76,19 +76,19 @@ const templates: ConsentTemplate[] = [
     subspecialty: 'Estrabismo',
     aliases: ['revisao estrabismo', 'reoperacao estrabismo', 'sobrecorreccao', 'subcorreccao'],
     fields: {
-      diagnostico: 'Sobrecorrecção, subcorrecção ou recorrência de estrabismo após cirurgia prévia',
-      descricao:
+      diagnosis: 'Sobrecorrecção, subcorrecção ou recorrência de estrabismo após cirurgia prévia',
+      description:
         'Cirurgia de revisão dos músculos extraoculares previamente operados para correcção de desvio residual ou recorrente. ' +
         'Tecnicamente mais exigente pela fibrose e aderências dos tecidos já intervencionados.',
-      beneficios:
+      benefits:
         'Melhoria do alinhamento ocular após resultado insatisfatório de cirurgia anterior.',
-      riscos:
+      risks:
         'Maior risco de complicações que a cirurgia primária: perfuração escleral, isquemia do segmento anterior, ' +
         'cicatrização exuberante, resultados menos previsíveis, necessidade de nova reintervenção.',
-      atos:
+      alternatives:
         'Revisão cirúrgica dos músculos extraoculares sob anestesia geral. ' +
         'Lise de aderências e reposicionamento muscular.',
-      riscosNaoTratamento:
+      risksOfNoTreatment:
         'Manutenção do desvio residual com limitação funcional e estética.',
     },
   },
@@ -98,19 +98,19 @@ const templates: ConsentTemplate[] = [
     subspecialty: 'Estrabismo',
     aliases: ['nistagmo', 'nystagmus', 'kestenbaum', 'anderson', 'posicao nula'],
     fields: {
-      diagnostico: 'Nistagmo com posição de bloqueio excêntrica e posição viciosa de cabeça significativa',
-      descricao:
+      diagnosis: 'Nistagmo com posição de bloqueio excêntrica e posição viciosa de cabeça significativa',
+      description:
         'Cirurgia de Anderson-Kestenbaum: transposição da posição nula do nistagmo para a posição primária ' +
         'por reposicionamento bilateral dos músculos horizontais, eliminando ou reduzindo a posição viciosa de cabeça.',
-      beneficios:
+      benefits:
         'Eliminação ou redução da posição viciosa de cabeça com melhoria funcional e estética. ' +
         'Possível melhoria da acuidade visual na posição primária.',
-      riscos:
+      risks:
         'Sobrecorrecção ou subcorrecção, diplopia, alteração da motilidade ocular, infecção.',
-      atos:
+      alternatives:
         'Recessão e ressecção bilateral dos músculos horizontais sob anestesia geral. ' +
         'Planeamento pré-operatório cuidadoso com medição do ângulo de desvio da cabeça.',
-      riscosNaoTratamento:
+      risksOfNoTreatment:
         'Manutenção da posição viciosa de cabeça com impacto funcional, postural e estético.',
     },
   },

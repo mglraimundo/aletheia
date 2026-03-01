@@ -13,14 +13,19 @@ function blankForm(): FormState {
   return {
     eye: '',
     templateId: '',
-    diagnostico: '',
-    descricao: '',
-    beneficios: '',
-    riscos: '',
-    atos: '',
-    riscosNaoTratamento: '',
-    data: todayFormatted(),
-    autorizacaoCheckbox: true,
+    diagnosis: '',
+    description: '',
+    benefits: '',
+    risks: '',
+    alternatives: '',
+    risksOfNoTreatment: '',
+    date: todayFormatted(),
+    patientName: '',
+    patientDate: todayFormatted(),
+    legalRepName: '',
+    legalRepDocNumber: '',
+    legalRepDocDate: '',
+    legalRepRelationship: '',
   };
 }
 
@@ -30,20 +35,20 @@ export function useFormState() {
   const loadTemplate = useCallback((template: ConsentTemplate) => {
     setForm(prev => ({
       ...blankForm(),
-      data: prev.data,
+      date: prev.date,
       eye: prev.eye,
       templateId:          template.id,
-      diagnostico:         template.fields.diagnostico         ?? '',
-      descricao:           template.fields.descricao           ?? '',
-      beneficios:          template.fields.beneficios          ?? '',
-      riscos:              template.fields.riscos              ?? '',
-      atos:                template.fields.atos                ?? '',
-      riscosNaoTratamento: template.fields.riscosNaoTratamento ?? '',
+      diagnosis:           template.fields.diagnosis           ?? '',
+      description:         template.fields.description         ?? '',
+      benefits:            template.fields.benefits            ?? '',
+      risks:               template.fields.risks               ?? '',
+      alternatives:        template.fields.alternatives        ?? '',
+      risksOfNoTreatment:  template.fields.risksOfNoTreatment  ?? '',
     }));
   }, []);
 
   const resetForm = useCallback(() => {
-    setForm(prev => ({ ...blankForm(), data: prev.data }));
+    setForm(prev => ({ ...blankForm(), date: prev.date }));
   }, []);
 
   const setField = useCallback(<K extends keyof FormState>(field: K, value: FormState[K]) => {

@@ -37,47 +37,47 @@ export function DoctorSection({
     <div className="flex flex-col gap-4">
       <div className="grid grid-cols-2 gap-4">
         <div className="flex flex-col gap-1">
-          <label htmlFor="nome" className="text-sm font-medium text-slate-600">Nome do Médico</label>
+          <label htmlFor="name" className="text-sm font-medium text-slate-600">Nome do Médico</label>
           <input
-            id="nome"
+            id="name"
             type="text"
-            value={doctor.nome}
-            onChange={e => onDoctorChange('nome', e.target.value)}
+            value={doctor.name}
+            onChange={e => onDoctorChange('name', e.target.value)}
             className={inputClass}
           />
         </div>
         <div className="flex flex-col gap-1">
-          <label htmlFor="cedula" className="text-sm font-medium text-slate-600">Nº Cédula OM</label>
+          <label htmlFor="licenseNumber" className="text-sm font-medium text-slate-600">Nº Cédula OM</label>
           <input
-            id="cedula"
+            id="licenseNumber"
             type="text"
-            value={doctor.cedula}
-            onChange={e => onDoctorChange('cedula', e.target.value)}
+            value={doctor.licenseNumber}
+            onChange={e => onDoctorChange('licenseNumber', e.target.value)}
             className={inputClass}
           />
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="flex flex-col gap-1">
-          <label htmlFor="mecanografico" className="text-sm font-medium text-slate-600">
+          <label htmlFor="staffId" className="text-sm font-medium text-slate-600">
             Nº Mecanográfico
           </label>
           <input
-            id="mecanografico"
+            id="staffId"
             type="text"
-            value={doctor.mecanografico}
-            onChange={e => onDoctorChange('mecanografico', e.target.value)}
+            value={doctor.staffId}
+            onChange={e => onDoctorChange('staffId', e.target.value)}
             className={inputClass}
           />
         </div>
         <div className="flex flex-col gap-1">
-          <label htmlFor="data" className="text-sm font-medium text-slate-600">Data</label>
+          <label htmlFor="date" className="text-sm font-medium text-slate-600">Data</label>
           <div className="relative">
             <input
-              id="data"
+              id="date"
               type="text"
-              value={form.data}
-              onChange={e => onFormChange('data', e.target.value)}
+              value={form.date}
+              onChange={e => onFormChange('date', e.target.value)}
               className={`${inputClass} w-full pr-9`}
               placeholder="DD/MM/AAAA"
             />
@@ -85,8 +85,8 @@ export function DoctorSection({
             <input
               ref={datePickerRef}
               type="date"
-              value={toIso(form.data)}
-              onChange={e => onFormChange('data', fromIso(e.target.value))}
+              value={toIso(form.date)}
+              onChange={e => onFormChange('date', fromIso(e.target.value))}
               className="absolute inset-0 opacity-0 pointer-events-none"
               tabIndex={-1}
             />
@@ -106,18 +106,6 @@ export function DoctorSection({
           </div>
         </div>
       </div>
-      {/* To re-enable: restore autorizacao + onAutorizacaoChange props and uncomment below */}
-      {/* <label className="flex items-center gap-3 cursor-pointer">
-        <input
-          type="checkbox"
-          checked={autorizacao}
-          onChange={e => onAutorizacaoChange(e.target.checked)}
-          className="w-4 h-4 accent-sky-600"
-        />
-        <span className="text-sm text-slate-600">
-          Pré-preencher a autorização do ato
-        </span>
-      </label> */}
     </div>
   );
 }

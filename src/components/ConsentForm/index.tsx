@@ -1,7 +1,8 @@
 import type { FormState, DoctorInfo, EyeSelection } from '../../types';
 import { EyeSelector } from './EyeSelector';
-import { ClinicalFields } from './ClinicalFields';
+import { ClinicalFields, hasClinicalOverflow } from './ClinicalFields';
 import { DoctorSection } from './DoctorSection';
+import { PatientSection } from './PatientSection';
 import { ActionButtons } from './ActionButtons';
 
 interface Props {
@@ -13,6 +14,8 @@ interface Props {
   onClear: () => void;
   onPreview: () => Promise<void>;
   onPrint: () => Promise<void>;
+  calibrateMode?: boolean;
+  onCalibrate?: () => Promise<void>;
 }
 
 export function ConsentForm({
@@ -24,6 +27,8 @@ export function ConsentForm({
   onClear,
   onPreview,
   onPrint,
+  calibrateMode,
+  onCalibrate,
 }: Props) {
   return (
     <section className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
@@ -79,9 +84,22 @@ export function ConsentForm({
           />
         </div>
 
+        {/* Patient Section */}
+        <div>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex-1 border-t border-slate-200" />
+            <span className="text-xs text-slate-400 font-medium uppercase tracking-wide">Utente</span>
+            <div className="flex-1 border-t border-slate-200" />
+          </div>
+          <PatientSection
+            form={form}
+            onFormChange={(field, value) => onFormChange(field, value as FormState[typeof field])}
+          />
+        </div>
+
         {/* Action Buttons */}
         <div className="border-t border-slate-100 pt-4">
-          <ActionButtons onPreview={onPreview} onPrint={onPrint} />
+          <ActionButtons onPreview={onPreview} onPrint={onPrint} disabled={hasClinicalOverflow(form)} calibrateMode={calibrateMode} onCalibrate={onCalibrate} />
         </div>
       </div>
     </section>

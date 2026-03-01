@@ -1,22 +1,22 @@
 export type EyeSelection =
-  | 'direito'
-  | 'esquerdo'
-  | 'bilateral-sequencial'
-  | 'bilateral-simultaneo'
+  | 'od'
+  | 'os'
+  | 'ou-sequential'
+  | 'ou-simultaneous'
   | '';
 
 export const EYE_LABELS: Record<Exclude<EyeSelection, ''>, string> = {
-  'direito':               'Olho DIREITO',
-  'esquerdo':              'Olho ESQUERDO',
-  'bilateral-sequencial':  'Olho DIREITO e ESQUERDO (bilateral sequencial)',
-  'bilateral-simultaneo':  'Olho DIREITO e ESQUERDO (bilateral simultâneo)',
+  'od':               'Olho DIREITO',
+  'os':               'Olho ESQUERDO',
+  'ou-sequential':    'Olho DIREITO e ESQUERDO (bilateral sequencial)',
+  'ou-simultaneous':  'Olho DIREITO e ESQUERDO (bilateral simultâneo)',
 };
 
 export const EYE_ORDER: Exclude<EyeSelection, ''>[] = [
-  'direito',
-  'esquerdo',
-  'bilateral-sequencial',
-  'bilateral-simultaneo',
+  'od',
+  'os',
+  'ou-sequential',
+  'ou-simultaneous',
 ];
 
 export interface ConsentTemplate {
@@ -25,30 +25,35 @@ export interface ConsentTemplate {
   subspecialty: string;
   aliases?: string[];        // hidden search terms (abbreviations, synonyms)
   fields: {
-    diagnostico?: string;
-    descricao?: string;
-    beneficios?: string;
-    riscos?: string;
-    atos?: string;
-    riscosNaoTratamento?: string;
+    diagnosis?: string;
+    description?: string;
+    benefits?: string;
+    risks?: string;
+    alternatives?: string;
+    risksOfNoTreatment?: string;
   };
 }
 
 export interface DoctorInfo {
-  nome: string;
-  cedula: string;
-  mecanografico: string;
+  name: string;
+  licenseNumber: string;
+  staffId: string;
 }
 
 export interface FormState {
   eye: EyeSelection;
   templateId: string;
-  diagnostico: string;
-  descricao: string;
-  beneficios: string;
-  riscos: string;
-  atos: string;
-  riscosNaoTratamento: string;
-  data: string;
-  autorizacaoCheckbox: boolean;
+  diagnosis: string;
+  description: string;
+  benefits: string;
+  risks: string;
+  alternatives: string;
+  risksOfNoTreatment: string;
+  date: string;
+  patientName: string;
+  patientDate: string;
+  legalRepName: string;
+  legalRepDocNumber: string;
+  legalRepDocDate: string;       // DD/MM/YYYY
+  legalRepRelationship: string;
 }

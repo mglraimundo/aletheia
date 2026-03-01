@@ -11,30 +11,30 @@ interface BuildState {
   name: string;
   subspecialty: string;
   aliases: string;
-  diagnostico: string;
-  descricao: string;
-  beneficios: string;
-  riscos: string;
-  atos: string;
-  riscosNaoTratamento: string;
+  diagnosis: string;
+  description: string;
+  benefits: string;
+  risks: string;
+  alternatives: string;
+  risksOfNoTreatment: string;
 }
 
 const EMPTY: BuildState = {
   name: '',
   subspecialty: SUBSPECIALTY_ORDER[0],
   aliases: '',
-  diagnostico: '',
-  descricao: '',
-  beneficios: '',
-  riscos: '',
-  atos: '',
-  riscosNaoTratamento: '',
+  diagnosis: '',
+  description: '',
+  benefits: '',
+  risks: '',
+  alternatives: '',
+  risksOfNoTreatment: '',
 };
 
 const PREVIEW_DOCTOR: DoctorInfo = {
-  nome: 'Médico Exemplo',
-  cedula: '00000',
-  mecanografico: 'exemplo',
+  name: 'Médico Exemplo',
+  licenseNumber: '00000',
+  staffId: 'exemplo',
 };
 
 function buildAutoId(name: string): string {
@@ -46,7 +46,7 @@ function buildAutoId(name: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
-export function BuildMode() {
+export function TemplateMode() {
   const [state, setState] = useState<BuildState>(EMPTY);
   const [isPreviewing, setIsPreviewing] = useState(false);
 
@@ -55,14 +55,19 @@ export function BuildMode() {
   const formForPreview: FormState = {
     eye: '',
     templateId: '',
-    diagnostico: state.diagnostico,
-    descricao: state.descricao,
-    beneficios: state.beneficios,
-    riscos: state.riscos,
-    atos: state.atos,
-    riscosNaoTratamento: state.riscosNaoTratamento,
-    data: new Date().toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit', year: 'numeric' }),
-    autorizacaoCheckbox: false,
+    diagnosis:          state.diagnosis,
+    description:        state.description,
+    benefits:           state.benefits,
+    risks:              state.risks,
+    alternatives:       state.alternatives,
+    risksOfNoTreatment: state.risksOfNoTreatment,
+    date: new Date().toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+    patientName: '',
+    patientDate: '',
+    legalRepName: '',
+    legalRepDocNumber: '',
+    legalRepDocDate: '',
+    legalRepRelationship: '',
   };
 
   function handleTemplateSelect(t: ConsentTemplate) {
@@ -70,13 +75,13 @@ export function BuildMode() {
       ...prev,
       name: t.name,
       subspecialty: t.subspecialty,
-      aliases: t.aliases?.join(', ') ?? '',
-      diagnostico:         t.fields.diagnostico         ?? '',
-      descricao:           t.fields.descricao           ?? '',
-      beneficios:          t.fields.beneficios          ?? '',
-      riscos:              t.fields.riscos              ?? '',
-      atos:                t.fields.atos                ?? '',
-      riscosNaoTratamento: t.fields.riscosNaoTratamento ?? '',
+      aliases:            t.aliases?.join(', ') ?? '',
+      diagnosis:          t.fields.diagnosis          ?? '',
+      description:        t.fields.description        ?? '',
+      benefits:           t.fields.benefits           ?? '',
+      risks:              t.fields.risks              ?? '',
+      alternatives:       t.fields.alternatives       ?? '',
+      risksOfNoTreatment: t.fields.risksOfNoTreatment ?? '',
     }));
   }
 
@@ -100,12 +105,12 @@ export function BuildMode() {
       subspecialty: state.subspecialty,
       aliases: state.aliases.split(',').map(a => a.trim()).filter(Boolean),
       fields: {
-        ...(state.diagnostico && { diagnostico: state.diagnostico }),
-        ...(state.descricao && { descricao: state.descricao }),
-        ...(state.beneficios && { beneficios: state.beneficios }),
-        ...(state.riscos && { riscos: state.riscos }),
-        ...(state.atos && { atos: state.atos }),
-        ...(state.riscosNaoTratamento && { riscosNaoTratamento: state.riscosNaoTratamento }),
+        ...(state.diagnosis          && { diagnosis:          state.diagnosis          }),
+        ...(state.description        && { description:        state.description        }),
+        ...(state.benefits           && { benefits:           state.benefits           }),
+        ...(state.risks              && { risks:              state.risks              }),
+        ...(state.alternatives       && { alternatives:       state.alternatives       }),
+        ...(state.risksOfNoTreatment && { risksOfNoTreatment: state.risksOfNoTreatment }),
       },
     };
     const blob = new Blob([JSON.stringify(template, null, 2)], { type: 'application/json' });
@@ -120,12 +125,12 @@ export function BuildMode() {
   const canDownload =
     state.name.trim() !== '' &&
     state.subspecialty !== '' &&
-    state.diagnostico.trim() !== '' &&
-    state.descricao.trim() !== '' &&
-    state.beneficios.trim() !== '' &&
-    state.riscos.trim() !== '' &&
-    state.atos.trim() !== '' &&
-    state.riscosNaoTratamento.trim() !== '';
+    state.diagnosis.trim() !== '' &&
+    state.description.trim() !== '' &&
+    state.benefits.trim() !== '' &&
+    state.risks.trim() !== '' &&
+    state.alternatives.trim() !== '' &&
+    state.risksOfNoTreatment.trim() !== '';
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
