@@ -16,7 +16,7 @@ const templates: ConsentTemplate[] = [
         'Avaliação oftalmológica completa e fiável em crianças que não cooperam para exame em consulta. ' +
         'Permite diagnóstico precoce e orientação terapêutica adequada.',
       riscos:
-        'Riscos inerentes à anestesia geral pediátrica (laringoespasmo, reacção anestésica, raramente complicações graves). ' +
+        'Riscos inerentes à anestesia geral pediátrica (laringoespasmo, reação anestésica, raramente complicações graves). ' +
         'Risco de hipertermia maligna em doentes predispostos.',
       atos:
         'Exame sob anestesia geral com biomicroscopia, tonometria (Perkins/iCare), fundoscopia e refracção. ' +

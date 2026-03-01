@@ -146,6 +146,8 @@ export async function previewPdf(form: FormState, doctor: DoctorInfo): Promise<v
   const blob = new Blob([new Uint8Array(bytes)], { type: 'application/pdf' });
   const url = URL.createObjectURL(blob);
   window.open(url, '_blank');
+  // Revoke after browser has had time to load the URL
+  setTimeout(() => URL.revokeObjectURL(url), 60_000);
 }
 
 export async function printPdf(form: FormState, doctor: DoctorInfo): Promise<void> {
@@ -169,6 +171,10 @@ export async function printPdf(form: FormState, doctor: DoctorInfo): Promise<voi
       // Fallback for browsers that block iframe print
       window.open(url, '_blank');
     }
-    setTimeout(() => { document.title = prevTitle; }, 1000);
+    setTimeout(() => {
+      document.title = prevTitle;
+      URL.revokeObjectURL(url);
+      iframe.remove();
+    }, 1000);
   };
 }

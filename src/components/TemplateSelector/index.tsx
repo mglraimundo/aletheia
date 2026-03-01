@@ -23,13 +23,16 @@ export function TemplateSelector({ onSelect }: Props) {
     else localStorage.removeItem(TAB_KEY);
   }
 
-  const q = query.toLowerCase();
+  const stripAccents = (s: string) =>
+    s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+  const q = stripAccents(query);
 
   const matchesQuery = (t: ConsentTemplate) =>
     !query ||
-    t.name.toLowerCase().includes(q) ||
-    t.subspecialty.toLowerCase().includes(q) ||
-    t.aliases?.some(a => a.toLowerCase().includes(q));
+    stripAccents(t.name).includes(q) ||
+    stripAccents(t.subspecialty).includes(q) ||
+    t.aliases?.some(a => stripAccents(a).includes(q));
 
   const filtered = ALL_TEMPLATES.filter(t => {
     const matchesSub = !activeSubspecialty || t.subspecialty === activeSubspecialty;
@@ -70,7 +73,7 @@ export function TemplateSelector({ onSelect }: Props) {
         />
         {showEmptyState ? (
           <p className="text-sm text-slate-400 text-center py-8">
-            Seleccione uma subespecialidade ou pesquise um procedimento.
+            Selecione uma subespecialidade ou pesquise um procedimento.
           </p>
         ) : filtered.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">

@@ -10,15 +10,16 @@ interface Props {
 
 export function ActionButtons({ onPreview, onPrint }: Props) {
   const [loading, setLoading] = useState<'preview' | 'print' | null>(null);
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<'success' | 'error' | false>(false);
 
   async function copyToClipboard() {
     try {
       await navigator.clipboard.writeText(REGISTO_TEXT);
-      setCopied(true);
+      setCopied('success');
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // silently ignore clipboard errors
+      setCopied('error');
+      setTimeout(() => setCopied(false), 2000);
     }
   }
 
@@ -54,7 +55,7 @@ export function ActionButtons({ onPreview, onPrint }: Props) {
           <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
           <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
         </svg>
-        <span className="hidden sm:inline">{copied ? 'Copiado!' : 'Registo CI'}</span>
+        <span className="hidden sm:inline">{copied === 'success' ? 'Copiado!' : copied === 'error' ? 'Erro ao copiar' : 'Registo CI'}</span>
       </button>
       <button
         onClick={() => handle('print', onPrint)}

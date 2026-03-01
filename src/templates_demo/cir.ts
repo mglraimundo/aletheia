@@ -13,12 +13,12 @@ const templates: ConsentTemplate[] = [
         'Consiste na remoção do cristalino opacificado por ultrassom através de uma incisão de pequenas dimensões, ' +
         'seguida da implantação de uma lente artificial no saco capsular.',
       beneficios:
-        'Recuperação da acuidade visual. Melhoria da qualidade de vida e autonomia nas actividades diárias. ' +
+        'Recuperação da acuidade visual. Melhoria da qualidade de vida e autonomia nas atividades diárias. ' +
         'Possível redução ou eliminação da dependência de óculos, dependendo da lente escolhida.',
       riscos:
         'Infecção intraocular (endoftalmite), hemorragia, descolamento da retina, edema macular cistóide, ' +
         'opacificação da cápsula posterior, luxação da lente intraocular, aumento da pressão intraocular, ' +
-        'perda de visão (rara). Anestesia local: reacção alérgica, hemorragia retrobulbar.',
+        'perda de visão (rara). Anestesia local: reação alérgica, hemorragia retrobulbar.',
       atos:
         'Facoemulsificação com implante de lente intraocular monofocal, multifocal ou tórica. ' +
         'Anestesia tópica ou local (peribulbar/retrobulbar). Medicação pré e pós-operatória.',

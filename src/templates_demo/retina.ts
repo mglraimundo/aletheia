@@ -58,7 +58,7 @@ const templates: ConsentTemplate[] = [
         'Injecção intravítrea de agente anti-VEGF (bevacizumab, ranibizumab, aflibercept, faricimab) ou corticosteroide ' +
         '(triancinolona, dexametasona — Ozurdex) para tratamento de patologia retiniana exsudativa.',
       beneficios:
-        'Estabilização ou melhoria da acuidade visual. Redução do edema macular e da actividade neovascular. ' +
+        'Estabilização ou melhoria da acuidade visual. Redução do edema macular e da atividade neovascular. ' +
         'Procedimento ambulatório minimamente invasivo.',
       riscos:
         'Endoftalmite, descolamento de retina, hemorragia vítrea, aumento transitório da pressão intraocular, ' +
