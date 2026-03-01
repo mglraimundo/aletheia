@@ -10,7 +10,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['avatar.webp', 'icon-192.png', 'icon-512.png'],
       manifest: {
-        name: 'Aletheia — Consentimento Informado',
+        name: 'Aletheia',
         short_name: 'Aletheia',
         description: 'Formulários de consentimento informado para o serviço de Oftalmologia da ULS Coimbra',
         start_url: '/',
