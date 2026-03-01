@@ -9,7 +9,7 @@ import { previewPdf, printPdf } from './lib/pdf/generatePdf';
 import type { FormState } from './types';
 
 export default function App() {
-  const isBuildMode = new URLSearchParams(window.location.search).has('build');
+  const isBuildMode = new URLSearchParams(window.location.search).has('template');
 
   const { doctor, updateDoctor } = useDoctorInfo();
   const { form, loadTemplate, resetForm, setField, setEye } = useFormState();
