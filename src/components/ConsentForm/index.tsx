@@ -18,6 +18,18 @@ interface Props {
   onCalibrate?: () => Promise<void>;
 }
 
+function SectionDivider({ label }: { label: string }) {
+  return (
+    <div className="flex items-center gap-3 mb-4">
+      <div className="flex-1 border-t border-slate-200" />
+      <span className="text-xs text-slate-400 font-medium uppercase tracking-wide">
+        {label}
+      </span>
+      <div className="flex-1 border-t border-slate-200" />
+    </div>
+  );
+}
+
 export function ConsentForm({
   form,
   doctor,
@@ -49,13 +61,7 @@ export function ConsentForm({
       <div className="p-6 flex flex-col gap-6">
         {/* Procedimento */}
         <div>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex-1 border-t border-slate-200" />
-            <span className="text-xs text-slate-400 font-medium uppercase tracking-wide">
-              Procedimento
-            </span>
-            <div className="flex-1 border-t border-slate-200" />
-          </div>
+          <SectionDivider label="Procedimento" />
           <div className="flex flex-col gap-6">
             <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
               <EyeSelector value={form.eye} onChange={onEyeChange} />
@@ -69,13 +75,7 @@ export function ConsentForm({
 
         {/* Doctor Section */}
         <div>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex-1 border-t border-slate-200" />
-            <span className="text-xs text-slate-400 font-medium uppercase tracking-wide">
-              Médico
-            </span>
-            <div className="flex-1 border-t border-slate-200" />
-          </div>
+          <SectionDivider label="Médico" />
           <DoctorSection
             doctor={doctor}
             form={form}
@@ -86,11 +86,7 @@ export function ConsentForm({
 
         {/* Patient Section */}
         <div>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex-1 border-t border-slate-200" />
-            <span className="text-xs text-slate-400 font-medium uppercase tracking-wide">Utente</span>
-            <div className="flex-1 border-t border-slate-200" />
-          </div>
+          <SectionDivider label="Utente" />
           <PatientSection
             form={form}
             onFormChange={onFormChange}

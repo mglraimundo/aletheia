@@ -1,16 +1,15 @@
 import type { PDFFont } from 'pdf-lib';
 
-export interface LayoutResult {
+interface LayoutResult {
   lines: string[];
   fontSize: number;
-  fits: boolean;
 }
 
 /**
  * Wraps text to fit within maxWidth at the given fontSize.
  * If a single word is wider than maxWidth, hard-splits by character.
  */
-export function wrapText(
+function wrapText(
   font: PDFFont,
   text: string,
   fontSize: number,
@@ -66,8 +65,6 @@ export function wrapText(
 export function layoutText(
   font: PDFFont,
   text: string,
-  _x: number,
-  _startY: number,
   width: number,
   height: number,
 ): LayoutResult {
@@ -77,7 +74,7 @@ export function layoutText(
     const lines = wrapText(font, text, fontSize, width);
 
     if (lines.length <= maxLines) {
-      return { lines, fontSize, fits: true };
+      return { lines, fontSize };
     }
   }
 
@@ -86,7 +83,7 @@ export function layoutText(
   const lineHeight = fontSize * 1.2;
   const maxLines = Math.floor(height / lineHeight);
   const lines = wrapText(font, text, fontSize, width).slice(0, maxLines);
-  return { lines, fontSize, fits: false };
+  return { lines, fontSize };
 }
 
 /**
@@ -95,8 +92,6 @@ export function layoutText(
 export function layoutSingleLine(
   font: PDFFont,
   text: string,
-  _x: number,
-  _y: number,
   maxWidth: number,
 ): { text: string; fontSize: number } {
   for (let fontSize = 10; fontSize >= 7; fontSize--) {

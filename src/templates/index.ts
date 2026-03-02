@@ -10,8 +10,6 @@ import retina from './retina';
 import type { ConsentTemplate } from '../types';
 import * as demo from '../templates_demo/index';
 
-export { cir, cornea, estrabismo, glaucoma, imunopatologia, oculoplastica, outros, pediatrica, retina };
-
 const realTemplates: ConsentTemplate[] = [
   ...cir,
   ...cornea,

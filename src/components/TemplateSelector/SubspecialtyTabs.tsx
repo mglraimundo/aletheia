@@ -16,10 +16,7 @@ export function SubspecialtyTabs({ subspecialties, active, onChange, counts }: P
         return (
           <button
             key={sub}
-            onClick={() => {
-              if (isZero) return;
-              onChange(isActive ? null : sub);
-            }}
+            onClick={() => onChange(isActive ? null : sub)}
             disabled={isZero}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
               isActive

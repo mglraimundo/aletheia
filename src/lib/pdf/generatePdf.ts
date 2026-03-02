@@ -1,6 +1,5 @@
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
-import type { FormState, EyeSelection } from '../../types';
-import type { DoctorInfo } from '../../types';
+import type { FormState, EyeSelection, DoctorInfo } from '../../types';
 import { EYE_LABELS } from '../../types';
 import { CLINICAL_FIELDS, DOCTOR_FIELDS, PATIENT_FIELDS, LEGAL_REP_FIELDS } from './coordinates';
 import { layoutText, layoutSingleLine } from './textLayout';
@@ -19,15 +18,12 @@ function buildFilename(form: FormState): string {
   return parts.join('-') || 'consentimento-informado';
 }
 
-async function buildPdf(form: FormState, doctor: DoctorInfo): Promise<Uint8Array> {
-  // 1. Load base PDF
+async function loadBaseDocument() {
   const response = await fetch('/base.pdf');
   if (!response.ok) throw new Error('Failed to fetch base.pdf');
   const baseBytes = await response.arrayBuffer();
 
   const base = await PDFDocument.load(baseBytes);
-
-  // 2. Create output document with 4 pages: [p1, p2, p1, p2]
   const outDoc = await PDFDocument.create();
   const [p1a, p2a, p1b, p2b] = await outDoc.copyPages(base, [0, 1, 0, 1]);
   outDoc.addPage(p1a);
@@ -36,9 +32,14 @@ async function buildPdf(form: FormState, doctor: DoctorInfo): Promise<Uint8Array
   outDoc.addPage(p2b);
 
   const font = await outDoc.embedFont(StandardFonts.Helvetica);
+  return { outDoc, font };
+}
+
+async function buildPdf(form: FormState, doctor: DoctorInfo): Promise<Uint8Array> {
+  const { outDoc, font } = await loadBaseDocument();
   const black = rgb(0, 0, 0);
 
-  // 3. Build clinical text with eye prefix for diagnosis and description
+  // Build clinical text with eye prefix for diagnosis and description
   const eyePrefix = form.eye ? EYE_LABELS[form.eye] + ': ' : '';
 
   const clinicalTexts: Record<string, string> = {
@@ -50,7 +51,7 @@ async function buildPdf(form: FormState, doctor: DoctorInfo): Promise<Uint8Array
     risksOfNoTreatment: form.risksOfNoTreatment,
   };
 
-  // 4. Draw clinical + doctor fields on pages 0 and 2 (both copies of page 1)
+  // Draw clinical + doctor fields on pages 0 and 2 (both copies of page 1)
   for (const pageIndex of [0, 2]) {
     const page = outDoc.getPage(pageIndex);
 
@@ -62,8 +63,6 @@ async function buildPdf(form: FormState, doctor: DoctorInfo): Promise<Uint8Array
       const { lines, fontSize } = layoutText(
         font,
         text,
-        coord.x,
-        coord.firstLineY,
         coord.width,
         coord.height,
       );
@@ -98,8 +97,6 @@ async function buildPdf(form: FormState, doctor: DoctorInfo): Promise<Uint8Array
       const { text: renderedText, fontSize } = layoutSingleLine(
         font,
         text,
-        coord.x,
-        coord.y,
         coord.maxWidth,
       );
 
@@ -132,14 +129,14 @@ async function buildPdf(form: FormState, doctor: DoctorInfo): Promise<Uint8Array
     for (const [fieldName, coord] of Object.entries(PATIENT_FIELDS)) {
       const text = patientValues[fieldName];
       if (!text) continue;
-      const { text: renderedText, fontSize } = layoutSingleLine(font, text, coord.x, coord.y, coord.maxWidth);
+      const { text: renderedText, fontSize } = layoutSingleLine(font, text, coord.maxWidth);
       page.drawText(renderedText, { x: coord.x, y: coord.y, size: fontSize, font, color: black });
     }
 
     for (const [fieldName, coord] of Object.entries(LEGAL_REP_FIELDS)) {
       const text = legalRepValues[fieldName];
       if (!text) continue;
-      const { text: renderedText, fontSize } = layoutSingleLine(font, text, coord.x, coord.y, coord.maxWidth);
+      const { text: renderedText, fontSize } = layoutSingleLine(font, text, coord.maxWidth);
       page.drawText(renderedText, { x: coord.x, y: coord.y, size: fontSize, font, color: black });
     }
   }
@@ -149,19 +146,7 @@ async function buildPdf(form: FormState, doctor: DoctorInfo): Promise<Uint8Array
 }
 
 export async function calibratePdf(): Promise<void> {
-  const response = await fetch('/base.pdf');
-  if (!response.ok) throw new Error('Failed to fetch base.pdf');
-  const baseBytes = await response.arrayBuffer();
-
-  const base = await PDFDocument.load(baseBytes);
-  const outDoc = await PDFDocument.create();
-  const [p1a, p2a, p1b, p2b] = await outDoc.copyPages(base, [0, 1, 0, 1]);
-  outDoc.addPage(p1a);
-  outDoc.addPage(p2a);
-  outDoc.addPage(p1b);
-  outDoc.addPage(p2b);
-
-  const font = await outDoc.embedFont(StandardFonts.Helvetica);
+  const { outDoc, font } = await loadBaseDocument();
   const red   = rgb(0.9, 0.1, 0.1);
   const blue  = rgb(0.1, 0.3, 0.9);
   const green = rgb(0.1, 0.7, 0.2);

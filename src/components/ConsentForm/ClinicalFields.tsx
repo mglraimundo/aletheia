@@ -12,7 +12,6 @@ type ClinicalFieldKey =
 interface Props {
   form: FormState;
   onChange: (field: keyof FormState, value: string) => void;
-  required?: boolean;
 }
 
 export const CLINICAL_FIELDS_CONFIG: { key: ClinicalFieldKey; label: string; maxChars: number }[] = [
@@ -28,7 +27,7 @@ export function hasClinicalOverflow(form: FormState): boolean {
   return CLINICAL_FIELDS_CONFIG.some(({ key, maxChars }) => form[key].length > maxChars);
 }
 
-export function ClinicalFields({ form, onChange, required }: Props) {
+export function ClinicalFields({ form, onChange }: Props) {
   return (
     <div className="flex flex-col gap-4">
       {CLINICAL_FIELDS_CONFIG.map(({ key, label, maxChars }) => (
@@ -39,7 +38,6 @@ export function ClinicalFields({ form, onChange, required }: Props) {
           value={form[key]}
           onChange={e => onChange(key, e.target.value.replace(/[\r\n]+/g, ' '))}
           rows={3}
-          required={required}
           charLimit={maxChars}
         />
       ))}

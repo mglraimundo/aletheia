@@ -1,13 +1,13 @@
 // PDF page: A4 595.32 × 841.92 pts, origin bottom-left (pdf-lib default)
 
-export interface FieldCoord {
+interface FieldCoord {
   x: number;
   firstLineY: number;
   width: number;
   height: number;
 }
 
-export interface SingleLineCoord {
+interface SingleLineCoord {
   x: number;
   y: number;
   maxWidth: number;

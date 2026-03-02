@@ -5,17 +5,12 @@ import { ConsentForm } from './components/ConsentForm';
 import { useDoctorInfo } from './hooks/useDoctorInfo';
 import { useFormState } from './hooks/useFormState';
 import { downloadPdf, printPdf, calibratePdf } from './lib/pdf/generatePdf';
-import type { FormState } from './types';
 
 export default function App() {
   const isCalibrateMode = new URLSearchParams(window.location.search).has('calibrate');
 
   const { doctor, updateDoctor } = useDoctorInfo();
   const { form, loadTemplate, resetForm, setField, setEye } = useFormState();
-
-  function handleFormChange(field: keyof FormState, value: string) {
-    setField(field, value);
-  }
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
@@ -25,7 +20,7 @@ export default function App() {
         <ConsentForm
           form={form}
           doctor={doctor}
-          onFormChange={handleFormChange}
+          onFormChange={setField}
           onEyeChange={setEye}
           onDoctorChange={updateDoctor}
           onClear={resetForm}

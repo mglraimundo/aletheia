@@ -1,11 +1,14 @@
 import { useState } from 'react';
-
-const TAB_KEY = 'aletheia_last_tab';
 import type { ConsentTemplate } from '../../types';
 import { ALL_TEMPLATES, SUBSPECIALTY_ORDER } from '../../templates';
 import { SearchBar } from './SearchBar';
 import { SubspecialtyTabs } from './SubspecialtyTabs';
 import { TemplateCard } from './TemplateCard';
+
+const TAB_KEY = 'aletheia_last_tab';
+
+const stripAccents = (s: string) =>
+  s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
 interface Props {
   onSelect: (t: ConsentTemplate) => void;
@@ -22,9 +25,6 @@ export function TemplateSelector({ onSelect }: Props) {
     if (sub) localStorage.setItem(TAB_KEY, sub);
     else localStorage.removeItem(TAB_KEY);
   }
-
-  const stripAccents = (s: string) =>
-    s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
   const q = stripAccents(query);
 

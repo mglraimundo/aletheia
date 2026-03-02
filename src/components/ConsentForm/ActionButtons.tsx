@@ -169,7 +169,7 @@ export function ActionButtons({ form, onDownload, onPrint, disabled, calibrateMo
         </div>
         {pdfError && (
           <p role="alert" className="text-xs text-red-600 text-right">
-            Erro ao gerar PDF: {pdfError}
+            {pdfError}
           </p>
         )}
       </div>
@@ -196,7 +196,7 @@ export function ActionButtons({ form, onDownload, onPrint, disabled, calibrateMo
                 value={modal.name}
                 onChange={e => setModal(prev => ({ ...prev, name: e.target.value }))}
                 className="border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent"
-                placeholder="ex: Facoemulsificação + LIO"
+                placeholder="ex: FACO + LIO"
                 autoFocus
               />
               {modal.name && (
@@ -224,7 +224,7 @@ export function ActionButtons({ form, onDownload, onPrint, disabled, calibrateMo
 
             <div className="flex flex-col gap-1">
               <label htmlFor="tmpl-aliases" className="text-sm font-medium text-slate-700">
-                Aliases <span className="text-slate-400 font-normal">(opcional, separados por vírgula)</span>
+                Aliases de Pesquisa <span className="text-slate-400 font-normal">(opcional, separados por vírgula)</span>
               </label>
               <input
                 id="tmpl-aliases"
@@ -232,7 +232,7 @@ export function ActionButtons({ form, onDownload, onPrint, disabled, calibrateMo
                 value={modal.aliases}
                 onChange={e => setModal(prev => ({ ...prev, aliases: e.target.value }))}
                 className="border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent"
-                placeholder="ex: faco, catarata"
+                placeholder="ex: catarata, phaco"
               />
             </div>
 
