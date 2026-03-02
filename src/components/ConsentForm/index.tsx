@@ -8,7 +8,7 @@ import { ActionButtons } from './ActionButtons';
 interface Props {
   form: FormState;
   doctor: DoctorInfo;
-  onFormChange: (field: keyof FormState, value: FormState[keyof FormState]) => void;
+  onFormChange: (field: keyof FormState, value: string) => void;
   onEyeChange: (eye: EyeSelection) => void;
   onDoctorChange: (field: keyof DoctorInfo, value: string) => void;
   onClear: () => void;
@@ -62,7 +62,7 @@ export function ConsentForm({
             </div>
             <ClinicalFields
               form={form}
-              onChange={(field, value) => onFormChange(field, value)}
+              onChange={onFormChange}
             />
           </div>
         </div>
@@ -80,7 +80,7 @@ export function ConsentForm({
             doctor={doctor}
             form={form}
             onDoctorChange={onDoctorChange}
-            onFormChange={(field, value) => onFormChange(field, value as FormState[typeof field])}
+            onFormChange={onFormChange}
           />
         </div>
 
@@ -93,7 +93,7 @@ export function ConsentForm({
           </div>
           <PatientSection
             form={form}
-            onFormChange={(field, value) => onFormChange(field, value as FormState[typeof field])}
+            onFormChange={onFormChange}
           />
         </div>
 

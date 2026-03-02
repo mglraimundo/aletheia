@@ -1,23 +1,10 @@
 import { useRef, useState } from 'react';
 import type { FormState } from '../../types';
+import { toIso, fromIso, isValidDateFormat } from '../../lib/dateUtils';
 
 interface Props {
   form: FormState;
   onFormChange: (field: keyof FormState, value: string) => void;
-}
-
-// DD/MM/YYYY → YYYY-MM-DD (for the hidden date input)
-function toIso(ddmmyyyy: string): string {
-  const [d, m, y] = ddmmyyyy.split('/');
-  if (!d || !m || !y || y.length !== 4) return '';
-  return `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
-}
-
-// YYYY-MM-DD → DD/MM/YYYY
-function fromIso(yyyymmdd: string): string {
-  const [y, m, d] = yyyymmdd.split('-');
-  if (!y || !m || !d) return '';
-  return `${d}/${m}/${y}`;
 }
 
 const CalendarIcon = () => (
@@ -40,12 +27,15 @@ export function PatientSection({ form, onFormChange }: Props) {
   const datePickerRef = useRef<HTMLInputElement>(null);
   const repDatePickerRef = useRef<HTMLInputElement>(null);
   const [repOpen, setRepOpen] = useState(false);
+  const [patientDateError, setPatientDateError] = useState(false);
+  const [repDateError, setRepDateError] = useState(false);
 
   const inputClass =
     'border border-slate-300 rounded-md px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent';
 
   function closeRep() {
     setRepOpen(false);
+    setRepDateError(false);
     onFormChange('legalRepName', '');
     onFormChange('legalRepDocNumber', '');
     onFormChange('legalRepDocDate', '');
@@ -71,6 +61,7 @@ export function PatientSection({ form, onFormChange }: Props) {
                 onClick={() => onFormChange('patientName', '')}
                 className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
                 title="Limpar"
+                aria-label="Limpar nome do utente"
               >
                 <XIcon />
               </button>
@@ -84,37 +75,43 @@ export function PatientSection({ form, onFormChange }: Props) {
               id="patientDate"
               type="text"
               value={form.patientDate}
-              onChange={e => onFormChange('patientDate', e.target.value)}
-              className={`${inputClass} w-full ${form.patientDate ? 'pr-16' : 'pr-9'}`}
+              onChange={e => { setPatientDateError(false); onFormChange('patientDate', e.target.value); }}
+              onBlur={() => setPatientDateError(!isValidDateFormat(form.patientDate))}
+              className={`${inputClass} w-full ${form.patientDate ? 'pr-16' : 'pr-9'} ${patientDateError ? 'border-red-400 focus:ring-red-400' : ''}`}
               placeholder="DD/MM/AAAA"
             />
             <input
               ref={datePickerRef}
               type="date"
               value={toIso(form.patientDate)}
-              onChange={e => onFormChange('patientDate', fromIso(e.target.value))}
+              onChange={e => { setPatientDateError(false); onFormChange('patientDate', fromIso(e.target.value)); }}
               className="absolute inset-0 opacity-0 pointer-events-none"
               tabIndex={-1}
             />
             {form.patientDate && (
               <button
                 type="button"
-                onClick={() => onFormChange('patientDate', '')}
+                onClick={() => { setPatientDateError(false); onFormChange('patientDate', ''); }}
                 className="absolute right-9 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
                 title="Limpar"
+                aria-label="Limpar data do utente"
               >
                 <XIcon />
               </button>
             )}
             <button
               type="button"
-              onClick={() => datePickerRef.current?.showPicker()}
+              onClick={() => datePickerRef.current?.showPicker?.()}
               className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-sky-600 transition-colors"
               title="Abrir calendário"
+              aria-label="Abrir calendário"
             >
               <CalendarIcon />
             </button>
           </div>
+          {patientDateError && (
+            <p className="text-xs text-red-500">Formato inválido — use DD/MM/AAAA</p>
+          )}
         </div>
       </div>
 
@@ -133,6 +130,7 @@ export function PatientSection({ form, onFormChange }: Props) {
             onClick={closeRep}
             className="absolute right-2 top-2 text-slate-400 hover:text-slate-600 transition-colors"
             title="Remover representante legal"
+            aria-label="Remover representante legal"
           >
             <XIcon />
           </button>
@@ -165,37 +163,43 @@ export function PatientSection({ form, onFormChange }: Props) {
                   id="legalRepDocDate"
                   type="text"
                   value={form.legalRepDocDate}
-                  onChange={e => onFormChange('legalRepDocDate', e.target.value)}
-                  className={`${inputClass} w-full ${form.legalRepDocDate ? 'pr-16' : 'pr-9'}`}
+                  onChange={e => { setRepDateError(false); onFormChange('legalRepDocDate', e.target.value); }}
+                  onBlur={() => setRepDateError(!isValidDateFormat(form.legalRepDocDate))}
+                  className={`${inputClass} w-full ${form.legalRepDocDate ? 'pr-16' : 'pr-9'} ${repDateError ? 'border-red-400 focus:ring-red-400' : ''}`}
                   placeholder="DD/MM/AAAA"
                 />
                 <input
                   ref={repDatePickerRef}
                   type="date"
                   value={toIso(form.legalRepDocDate)}
-                  onChange={e => onFormChange('legalRepDocDate', fromIso(e.target.value))}
+                  onChange={e => { setRepDateError(false); onFormChange('legalRepDocDate', fromIso(e.target.value)); }}
                   className="absolute inset-0 opacity-0 pointer-events-none"
                   tabIndex={-1}
                 />
                 {form.legalRepDocDate && (
                   <button
                     type="button"
-                    onClick={() => onFormChange('legalRepDocDate', '')}
+                    onClick={() => { setRepDateError(false); onFormChange('legalRepDocDate', ''); }}
                     className="absolute right-9 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
                     title="Limpar"
+                    aria-label="Limpar data do documento"
                   >
                     <XIcon />
                   </button>
                 )}
                 <button
                   type="button"
-                  onClick={() => repDatePickerRef.current?.showPicker()}
+                  onClick={() => repDatePickerRef.current?.showPicker?.()}
                   className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-sky-600 transition-colors"
                   title="Abrir calendário"
+                  aria-label="Abrir calendário"
                 >
                   <CalendarIcon />
                 </button>
               </div>
+              {repDateError && (
+                <p className="text-xs text-red-500">Formato inválido — use DD/MM/AAAA</p>
+              )}
             </div>
             <div className="col-span-2 flex flex-col gap-1">
               <label htmlFor="legalRepRelationship" className="text-xs font-medium text-slate-500">Grau de parentesco ou tipo de representação</label>

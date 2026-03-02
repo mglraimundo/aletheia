@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-**Aletheia** — client-side web app for generating informed consent forms (DGS 015/2013) for the Ophthalmology Department of ULS Coimbra. Fully stateless: no backend, no clinical data persistence. Only doctor info is stored in localStorage.
+**Aletheia** — client-side web app for generating informed consent forms (DGS 015/2013) for the Ophthalmology Department of ULS Coimbra. Fully stateless: no backend, no server-side data persistence. Doctor info and clinical form state (minus patient PII) are stored in localStorage.
 
 ## Commands
 
@@ -21,8 +21,9 @@ npx tsc --noEmit  # type-check only (faster than full build)
 
 ```
 App
-├── useDoctorInfo()     → localStorage: aletheia_doctor_info { nome, cedula, mecanografico }
-├── useFormState()      → in-memory form state; reset after PDF generation (date preserved)
+├── useDoctorInfo()     → localStorage: aletheia_doctor_info { name, licenseNumber, staffId }
+├── useFormState()      → localStorage: aletheia_form_state (eye, templateId, clinical fields);
+│                          patient fields (patientName, patientDate, legalRep*) are session-only
 ├── Header
 ├── TemplateSelector    → localStorage: aletheia_last_tab (active subspecialty)
 │   └── filters by search (name + aliases) and subspecialty tab
@@ -40,12 +41,12 @@ Output is always 4 pages: `[page1-copy-A, page2-copy-A, page1-copy-B, page2-copy
 
 **Important:** `buildPdf()` must return `Uint8Array` (not `ArrayBuffer`) for the `Blob` constructor — TypeScript 5.9 strict mode requires `new Uint8Array(bytes)`.
 
-Doctor email is synthesized as `{mecanografico}@ulscoimbra.min-saude.pt` — it is never stored.
+Doctor email is synthesized as `{staffId}@ulscoimbra.min-saude.pt` — it is never stored.
 
 ### Types (`src/types/index.ts`)
 
 ```typescript
-type EyeSelection = 'direito' | 'esquerdo' | 'bilateral-sequencial' | 'bilateral-simultaneo' | '';
+type EyeSelection = 'od' | 'os' | 'ou-sequential' | 'ou-simultaneous' | '';
 
 interface ConsentTemplate {
   id: string;
@@ -53,24 +54,29 @@ interface ConsentTemplate {
   subspecialty: string;
   aliases?: string[];     // hidden search terms (abbreviations, synonyms)
   fields: {
-    diagnostico?: string;
-    descricao?: string;
-    beneficios?: string;
-    riscos?: string;
-    atos?: string;
-    riscosNaoTratamento?: string;
+    diagnosis?: string;
+    description?: string;
+    benefits?: string;
+    risks?: string;
+    alternatives?: string;
+    risksOfNoTreatment?: string;
   };
 }
 
-interface DoctorInfo { nome: string; cedula: string; mecanografico: string; }
+interface DoctorInfo { name: string; licenseNumber: string; staffId: string; }
 
 interface FormState {
   eye: EyeSelection;
   templateId: string;
-  diagnostico: string; descricao: string; beneficios: string;
-  riscos: string; atos: string; riscosNaoTratamento: string;
-  data: string;  // DD/MM/YYYY
-  autorizacaoCheckbox: boolean;
+  diagnosis: string; description: string; benefits: string;
+  risks: string; alternatives: string; risksOfNoTreatment: string;
+  date: string;        // DD/MM/YYYY
+  patientName: string;
+  patientDate: string; // DD/MM/YYYY
+  legalRepName: string;
+  legalRepDocNumber: string;
+  legalRepDocDate: string;       // DD/MM/YYYY
+  legalRepRelationship: string;
 }
 ```
 
@@ -87,6 +93,8 @@ To add a procedure: add an entry to the relevant subspecialty file and ensure it
 | `public/base.pdf` | DGS form template (2-page A4, do not replace without recalibrating coordinates) |
 | `src/lib/pdf/coordinates.ts` | All PDF field positions — edit here for layout fixes |
 | `src/lib/pdf/generatePdf.ts` | PDF assembly logic |
+| `src/lib/dateUtils.ts` | Shared date conversion helpers (toIso, fromIso, isValidDateFormat) |
+| `src/lib/storage.ts` | localStorage read/write for doctor info and form state |
 | `src/templates/index.ts` | Template registry |
 | `src/types/index.ts` | All shared types |
 
@@ -94,4 +102,3 @@ To add a procedure: add an entry to the relevant subspecialty file and ensure it
 
 - **PDF coordinates need visual calibration** — coordinates in `coordinates.ts` were set by plan, not verified against printed output
 - Chunk size warning (~642 KB) is expected — pdf-lib is large, acceptable for hospital intranet
-- The `autorizacaoCheckbox` field exists in `FormState` but is currently disabled/commented out in both the form UI and PDF generation

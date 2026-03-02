@@ -1,5 +1,6 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import type { FormState, ConsentTemplate, EyeSelection } from '../types';
+import { loadFormState, saveFormState } from '../lib/storage';
 
 function todayFormatted(): string {
   return new Date().toLocaleDateString('pt-PT', {
@@ -10,21 +11,22 @@ function todayFormatted(): string {
 }
 
 function blankForm(): FormState {
+  const saved = loadFormState();
   return {
-    eye: '',
-    templateId: '',
-    diagnosis: '',
-    description: '',
-    benefits: '',
-    risks: '',
-    alternatives: '',
-    risksOfNoTreatment: '',
-    date: todayFormatted(),
-    patientName: '',
-    patientDate: todayFormatted(),
-    legalRepName: '',
-    legalRepDocNumber: '',
-    legalRepDocDate: '',
+    eye:                saved.eye          ?? '',
+    templateId:         saved.templateId   ?? '',
+    diagnosis:          saved.diagnosis    ?? '',
+    description:        saved.description  ?? '',
+    benefits:           saved.benefits     ?? '',
+    risks:              saved.risks        ?? '',
+    alternatives:       saved.alternatives ?? '',
+    risksOfNoTreatment: saved.risksOfNoTreatment ?? '',
+    date:               todayFormatted(),
+    patientName:        '',
+    patientDate:        todayFormatted(),
+    legalRepName:       '',
+    legalRepDocNumber:  '',
+    legalRepDocDate:    '',
     legalRepRelationship: '',
   };
 }
@@ -32,11 +34,13 @@ function blankForm(): FormState {
 export function useFormState() {
   const [form, setForm] = useState<FormState>(blankForm);
 
+  useEffect(() => {
+    saveFormState(form);
+  }, [form]);
+
   const loadTemplate = useCallback((template: ConsentTemplate) => {
     setForm(prev => ({
-      ...blankForm(),
-      date: prev.date,
-      eye: prev.eye,
+      ...prev,
       templateId:          template.id,
       diagnosis:           template.fields.diagnosis           ?? '',
       description:         template.fields.description         ?? '',
@@ -48,10 +52,26 @@ export function useFormState() {
   }, []);
 
   const resetForm = useCallback(() => {
-    setForm(prev => ({ ...blankForm(), date: prev.date }));
+    setForm(prev => ({
+      eye:                '',
+      templateId:         '',
+      diagnosis:          '',
+      description:        '',
+      benefits:           '',
+      risks:              '',
+      alternatives:       '',
+      risksOfNoTreatment: '',
+      date:               prev.date,
+      patientName:        '',
+      patientDate:        todayFormatted(),
+      legalRepName:       '',
+      legalRepDocNumber:  '',
+      legalRepDocDate:    '',
+      legalRepRelationship: '',
+    }));
   }, []);
 
-  const setField = useCallback(<K extends keyof FormState>(field: K, value: FormState[K]) => {
+  const setField = useCallback((field: keyof FormState, value: string) => {
     setForm(prev => ({ ...prev, [field]: value }));
   }, []);
 

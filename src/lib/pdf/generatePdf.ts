@@ -237,7 +237,7 @@ export async function calibratePdf(): Promise<void> {
   const blob = new Blob([new Uint8Array(bytes)], { type: 'application/pdf' });
   const url = URL.createObjectURL(blob);
   window.open(url, '_blank');
-  setTimeout(() => URL.revokeObjectURL(url), 60_000);
+  setTimeout(() => URL.revokeObjectURL(url), 10_000);
 }
 
 export async function previewPdf(form: FormState, doctor: DoctorInfo): Promise<void> {
