@@ -97,7 +97,7 @@ export function ActionButtons({ form, onDownload, onPrint, disabled, calibrateMo
 
   return (
     <>
-      <div className="flex flex-col gap-2 items-end">
+      <div id="action-buttons" className="flex flex-col gap-2 items-end">
         <div className="flex gap-3 justify-end">
           <button
             onClick={openModal}

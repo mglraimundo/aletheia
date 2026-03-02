@@ -51,12 +51,23 @@ export function ConsentForm({
           </h2>
           <p className="text-xs text-sky-600 mt-0.5">Norma DGS nº 015/2013</p>
         </div>
-        <button
-          onClick={onClear}
-          className="text-xs text-slate-500 hover:text-slate-700 bg-white border border-slate-300 hover:border-slate-400 rounded-md px-2.5 py-1 transition-colors"
-        >
-          Limpar
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={onClear}
+            className="text-xs text-slate-500 hover:text-slate-700 bg-white border border-slate-300 hover:border-slate-400 rounded-md px-2.5 py-1 transition-colors"
+          >
+            Limpar
+          </button>
+          <button
+            onClick={() => document.getElementById('action-buttons')?.scrollIntoView({ behavior: 'smooth' })}
+            aria-label="Ir para ações"
+            className="text-xs text-slate-500 hover:text-slate-700 bg-white border border-slate-300 hover:border-slate-400 rounded-md px-2 py-1 transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+        </div>
       </div>
       <div className="p-6 flex flex-col gap-6">
         {/* Procedimento */}
