@@ -19,6 +19,7 @@ export function Textarea({ label, id, required, charLimit, ...props }: TextareaP
         rows={3}
         className="border border-slate-300 rounded-md px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent resize-y"
         {...props}
+        maxLength={charLimit}
       />
       {charLimit && (
         <p className={`text-xs text-right ${ratio > 1 ? 'text-red-500' : 'text-slate-400'}`}>

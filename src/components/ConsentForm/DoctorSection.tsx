@@ -1,25 +1,12 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import type { DoctorInfo, FormState } from '../../types';
+import { toIso, fromIso, isValidDateFormat } from '../../lib/dateUtils';
 
 interface Props {
   doctor: DoctorInfo;
   form: FormState;
   onDoctorChange: (field: keyof DoctorInfo, value: string) => void;
   onFormChange: (field: keyof FormState, value: string) => void;
-}
-
-// DD/MM/YYYY → YYYY-MM-DD (for the hidden date input)
-function toIso(ddmmyyyy: string): string {
-  const [d, m, y] = ddmmyyyy.split('/');
-  if (!d || !m || !y || y.length !== 4) return '';
-  return `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
-}
-
-// YYYY-MM-DD → DD/MM/YYYY
-function fromIso(yyyymmdd: string): string {
-  const [y, m, d] = yyyymmdd.split('-');
-  if (!y || !m || !d) return '';
-  return `${d}/${m}/${y}`;
 }
 
 const XIcon = ({ size = 'w-3.5 h-3.5' }: { size?: string }) => (
@@ -36,6 +23,7 @@ export function DoctorSection({
   onFormChange,
 }: Props) {
   const datePickerRef = useRef<HTMLInputElement>(null);
+  const [dateError, setDateError] = useState(false);
 
   const inputClass =
     'border border-slate-300 rounded-md px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent';
@@ -84,8 +72,9 @@ export function DoctorSection({
               id="date"
               type="text"
               value={form.date}
-              onChange={e => onFormChange('date', e.target.value)}
-              className={`${inputClass} w-full ${form.date ? 'pr-16' : 'pr-9'}`}
+              onChange={e => { setDateError(false); onFormChange('date', e.target.value); }}
+              onBlur={() => setDateError(!isValidDateFormat(form.date))}
+              className={`${inputClass} w-full ${form.date ? 'pr-16' : 'pr-9'} ${dateError ? 'border-red-400 focus:ring-red-400' : ''}`}
               placeholder="DD/MM/AAAA"
             />
             {/* Hidden native date picker — triggered by the calendar icon */}
@@ -93,25 +82,27 @@ export function DoctorSection({
               ref={datePickerRef}
               type="date"
               value={toIso(form.date)}
-              onChange={e => onFormChange('date', fromIso(e.target.value))}
+              onChange={e => { setDateError(false); onFormChange('date', fromIso(e.target.value)); }}
               className="absolute inset-0 opacity-0 pointer-events-none"
               tabIndex={-1}
             />
             {form.date && (
               <button
                 type="button"
-                onClick={() => onFormChange('date', '')}
+                onClick={() => { setDateError(false); onFormChange('date', ''); }}
                 className="absolute right-9 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
                 title="Limpar"
+                aria-label="Limpar data"
               >
                 <XIcon />
               </button>
             )}
             <button
               type="button"
-              onClick={() => datePickerRef.current?.showPicker()}
+              onClick={() => datePickerRef.current?.showPicker?.()}
               className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-sky-600 transition-colors"
               title="Abrir calendário"
+              aria-label="Abrir calendário"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
@@ -121,6 +112,9 @@ export function DoctorSection({
               </svg>
             </button>
           </div>
+          {dateError && (
+            <p className="text-xs text-red-500">Formato inválido — use DD/MM/AAAA</p>
+          )}
         </div>
       </div>
     </div>

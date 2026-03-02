@@ -18,7 +18,7 @@ export default function App() {
 
   if (isTemplateMode) return <TemplateMode />;
 
-  function handleFormChange(field: keyof FormState, value: FormState[keyof FormState]) {
+  function handleFormChange(field: keyof FormState, value: string) {
     setField(field, value);
   }
 
