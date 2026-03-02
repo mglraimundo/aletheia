@@ -10,7 +10,7 @@ No data is ever sent to a server. No clinical information is persisted anywhere.
 
 ## Features
 
-- **Procedure templates** with full pre-filled clinical text in Portuguese, organised by subspecialty (Cirurgia Implanto-Refrativa, Glaucoma, Córnea)
+- **Procedure templates** with full pre-filled clinical text in Portuguese, organised by subspecialty
 - **Alias-based search** — common abbreviations like *faco*, *trab*, *qp* resolve to the correct template
 - **Eye selector** — right, left, or bilateral (sequential/simultaneous), injected as a prefix into the PDF fields
 - **Client-side PDF generation** — fills the official DGS base form using [pdf-lib](https://pdf-lib.js.org/), producing a 4-page document (two complete copies) ready for duplex printing
