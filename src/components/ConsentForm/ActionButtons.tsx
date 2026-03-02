@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { SUBSPECIALTY_ORDER } from '../../templates';
+import { ALL_TEMPLATES, SUBSPECIALTY_ORDER } from '../../templates';
 import type { ConsentTemplate, FormState } from '../../types';
 
 const REGISTO_TEXT =
@@ -65,7 +65,8 @@ export function ActionButtons({ form, onDownload, onPrint, disabled, calibrateMo
   }
 
   function openModal() {
-    setModal(saved ?? { name: '', subspecialty: SUBSPECIALTY_ORDER[0], aliases: '' });
+    const currentSubspecialty = ALL_TEMPLATES.find(t => t.id === form.templateId)?.subspecialty ?? SUBSPECIALTY_ORDER[0];
+    setModal(saved ?? { name: '', subspecialty: currentSubspecialty, aliases: '' });
     setIsModalOpen(true);
   }
 
