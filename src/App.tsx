@@ -11,7 +11,7 @@ import type { FormState } from './types';
 export default function App() {
   const params = new URLSearchParams(window.location.search);
   const isTemplateMode = params.has('template');
-  const calibrateMode = params.has('calibrate');
+  const isCalibrateMode = params.has('calibrate');
 
   const { doctor, updateDoctor } = useDoctorInfo();
   const { form, loadTemplate, resetForm, setField, setEye } = useFormState();
@@ -36,7 +36,7 @@ export default function App() {
           onClear={resetForm}
           onPreview={() => previewPdf(form, doctor)}
           onPrint={() => printPdf(form, doctor)}
-          calibrateMode={calibrateMode}
+          calibrateMode={isCalibrateMode}
           onCalibrate={calibratePdf}
         />
       </main>
