@@ -2,21 +2,16 @@ import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { TemplateSelector } from './components/TemplateSelector';
 import { ConsentForm } from './components/ConsentForm';
-import { TemplateMode } from './components/TemplateMode';
 import { useDoctorInfo } from './hooks/useDoctorInfo';
 import { useFormState } from './hooks/useFormState';
-import { previewPdf, printPdf, calibratePdf } from './lib/pdf/generatePdf';
+import { downloadPdf, printPdf, calibratePdf } from './lib/pdf/generatePdf';
 import type { FormState } from './types';
 
 export default function App() {
-  const params = new URLSearchParams(window.location.search);
-  const isTemplateMode = params.has('template');
-  const isCalibrateMode = params.has('calibrate');
+  const isCalibrateMode = new URLSearchParams(window.location.search).has('calibrate');
 
   const { doctor, updateDoctor } = useDoctorInfo();
   const { form, loadTemplate, resetForm, setField, setEye } = useFormState();
-
-  if (isTemplateMode) return <TemplateMode />;
 
   function handleFormChange(field: keyof FormState, value: string) {
     setField(field, value);
@@ -34,7 +29,7 @@ export default function App() {
           onEyeChange={setEye}
           onDoctorChange={updateDoctor}
           onClear={resetForm}
-          onPreview={() => previewPdf(form, doctor)}
+          onDownload={() => downloadPdf(form, doctor)}
           onPrint={() => printPdf(form, doctor)}
           calibrateMode={isCalibrateMode}
           onCalibrate={calibratePdf}

@@ -240,20 +240,22 @@ export async function calibratePdf(): Promise<void> {
   setTimeout(() => URL.revokeObjectURL(url), 10_000);
 }
 
-export async function previewPdf(form: FormState, doctor: DoctorInfo): Promise<void> {
+export async function downloadPdf(form: FormState, doctor: DoctorInfo): Promise<void> {
   const bytes = await buildPdf(form, doctor);
-  // new Uint8Array(bytes) copies data into a proper ArrayBuffer (TS 5.9 strict compat)
   const blob = new Blob([new Uint8Array(bytes)], { type: 'application/pdf' });
   const url = URL.createObjectURL(blob);
-  window.open(url, '_blank');
-  // Revoke after browser has had time to load the URL
-  setTimeout(() => URL.revokeObjectURL(url), 60_000);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${buildFilename(form)}.pdf`;
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 export async function printPdf(form: FormState, doctor: DoctorInfo): Promise<void> {
   const bytes = await buildPdf(form, doctor);
   const blob = new Blob([new Uint8Array(bytes)], { type: 'application/pdf' });
   const url = URL.createObjectURL(blob);
+
   const filename = buildFilename(form);
   const prevTitle = document.title;
   document.title = filename;
@@ -264,40 +266,16 @@ export async function printPdf(form: FormState, doctor: DoctorInfo): Promise<voi
   document.body.appendChild(iframe);
 
   iframe.onload = () => {
-    // Delay gives Edge (and other browsers) time to initialise the PDF viewer
-    // before print() is called, preventing a silent miss.
+    try {
+      iframe.contentWindow?.print();
+    } catch {
+      // Fallback for browsers that block iframe print
+      window.open(url, '_blank');
+    }
     setTimeout(() => {
-      let printTriggered = false;
-
-      if (iframe.contentWindow) {
-        // onbeforeprint fires synchronously when the print dialog actually opens.
-        // If it never fires (Safari), we know to fall back.
-        iframe.contentWindow.onbeforeprint = () => { printTriggered = true; };
-        // onafterprint fires after OK or Cancel — clean up there.
-        iframe.contentWindow.onafterprint = () => {
-          document.title = prevTitle;
-          URL.revokeObjectURL(url);
-          iframe.remove();
-        };
-      }
-
-      try {
-        iframe.contentWindow?.print();
-      } catch {
-        // Some browsers may throw; ignore and let the fallback below handle it.
-      }
-
-      // After a short wait, check whether the dialog was actually triggered.
-      // Safari's PDF plugin ignores .print() without throwing, so printTriggered
-      // stays false — open in a new tab instead so the user can Cmd+P manually.
-      setTimeout(() => {
-        if (!printTriggered) {
-          document.title = prevTitle;
-          iframe.remove();
-          window.open(url, '_blank');
-          setTimeout(() => URL.revokeObjectURL(url), 60_000);
-        }
-      }, 500);
-    }, 500); // 500 ms post-load delay for Edge PDF renderer init
+      document.title = prevTitle;
+      URL.revokeObjectURL(url);
+      iframe.remove();
+    }, 1000);
   };
 }

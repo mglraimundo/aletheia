@@ -12,7 +12,7 @@ interface Props {
   onEyeChange: (eye: EyeSelection) => void;
   onDoctorChange: (field: keyof DoctorInfo, value: string) => void;
   onClear: () => void;
-  onPreview: () => Promise<void>;
+  onDownload: () => Promise<void>;
   onPrint: () => Promise<void>;
   calibrateMode?: boolean;
   onCalibrate?: () => Promise<void>;
@@ -25,7 +25,7 @@ export function ConsentForm({
   onEyeChange,
   onDoctorChange,
   onClear,
-  onPreview,
+  onDownload,
   onPrint,
   calibrateMode,
   onCalibrate,
@@ -99,7 +99,7 @@ export function ConsentForm({
 
         {/* Action Buttons */}
         <div className="border-t border-slate-100 pt-4">
-          <ActionButtons onPreview={onPreview} onPrint={onPrint} disabled={hasClinicalOverflow(form)} calibrateMode={calibrateMode} onCalibrate={onCalibrate} />
+          <ActionButtons form={form} onDownload={onDownload} onPrint={onPrint} disabled={hasClinicalOverflow(form)} calibrateMode={calibrateMode} onCalibrate={onCalibrate} />
         </div>
       </div>
     </section>
