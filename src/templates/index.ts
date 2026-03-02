@@ -36,8 +36,7 @@ const realOrder = [
   'Retina',
 ];
 
-// Remove this block (+ templates_demo/) when rolling out for real
-const isDev = new URLSearchParams(window.location.search).has('dev');
+const isDemo = new URLSearchParams(window.location.search).has('demo');
 
-export const ALL_TEMPLATES: ConsentTemplate[] = isDev ? realTemplates : demo.ALL_TEMPLATES;
-export const SUBSPECIALTY_ORDER: string[] = isDev ? realOrder : demo.SUBSPECIALTY_ORDER;
+export const ALL_TEMPLATES: ConsentTemplate[] = isDemo ? demo.ALL_TEMPLATES : realTemplates;
+export const SUBSPECIALTY_ORDER: string[] = isDemo ? demo.SUBSPECIALTY_ORDER : realOrder;
