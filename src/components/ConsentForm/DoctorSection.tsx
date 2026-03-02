@@ -22,6 +22,13 @@ function fromIso(yyyymmdd: string): string {
   return `${d}/${m}/${y}`;
 }
 
+const XIcon = ({ size = 'w-3.5 h-3.5' }: { size?: string }) => (
+  <svg className={size} fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
+  </svg>
+);
+
 export function DoctorSection({
   doctor,
   form,
@@ -78,7 +85,7 @@ export function DoctorSection({
               type="text"
               value={form.date}
               onChange={e => onFormChange('date', e.target.value)}
-              className={`${inputClass} w-full pr-9`}
+              className={`${inputClass} w-full ${form.date ? 'pr-16' : 'pr-9'}`}
               placeholder="DD/MM/AAAA"
             />
             {/* Hidden native date picker — triggered by the calendar icon */}
@@ -90,6 +97,16 @@ export function DoctorSection({
               className="absolute inset-0 opacity-0 pointer-events-none"
               tabIndex={-1}
             />
+            {form.date && (
+              <button
+                type="button"
+                onClick={() => onFormChange('date', '')}
+                className="absolute right-9 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                title="Limpar"
+              >
+                <XIcon />
+              </button>
+            )}
             <button
               type="button"
               onClick={() => datePickerRef.current?.showPicker()}

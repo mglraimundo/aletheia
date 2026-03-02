@@ -85,7 +85,7 @@ export function PatientSection({ form, onFormChange }: Props) {
               type="text"
               value={form.patientDate}
               onChange={e => onFormChange('patientDate', e.target.value)}
-              className={`${inputClass} w-full pr-9`}
+              className={`${inputClass} w-full ${form.patientDate ? 'pr-16' : 'pr-9'}`}
               placeholder="DD/MM/AAAA"
             />
             <input
@@ -96,6 +96,16 @@ export function PatientSection({ form, onFormChange }: Props) {
               className="absolute inset-0 opacity-0 pointer-events-none"
               tabIndex={-1}
             />
+            {form.patientDate && (
+              <button
+                type="button"
+                onClick={() => onFormChange('patientDate', '')}
+                className="absolute right-9 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                title="Limpar"
+              >
+                <XIcon />
+              </button>
+            )}
             <button
               type="button"
               onClick={() => datePickerRef.current?.showPicker()}
@@ -156,7 +166,7 @@ export function PatientSection({ form, onFormChange }: Props) {
                   type="text"
                   value={form.legalRepDocDate}
                   onChange={e => onFormChange('legalRepDocDate', e.target.value)}
-                  className={`${inputClass} w-full pr-9`}
+                  className={`${inputClass} w-full ${form.legalRepDocDate ? 'pr-16' : 'pr-9'}`}
                   placeholder="DD/MM/AAAA"
                 />
                 <input
@@ -167,6 +177,16 @@ export function PatientSection({ form, onFormChange }: Props) {
                   className="absolute inset-0 opacity-0 pointer-events-none"
                   tabIndex={-1}
                 />
+                {form.legalRepDocDate && (
+                  <button
+                    type="button"
+                    onClick={() => onFormChange('legalRepDocDate', '')}
+                    className="absolute right-9 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                    title="Limpar"
+                  >
+                    <XIcon />
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={() => repDatePickerRef.current?.showPicker()}
