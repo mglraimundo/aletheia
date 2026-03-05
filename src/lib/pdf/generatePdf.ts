@@ -251,16 +251,38 @@ export async function printPdf(form: FormState, doctor: DoctorInfo): Promise<voi
   document.body.appendChild(iframe);
 
   iframe.onload = () => {
-    try {
-      iframe.contentWindow?.print();
-    } catch {
-      // Fallback for browsers that block iframe print
+    const win = iframe.contentWindow;
+    if (!win) {
       window.open(url, '_blank');
+      return;
     }
-    setTimeout(() => {
+
+    const cleanup = () => {
       document.title = prevTitle;
       URL.revokeObjectURL(url);
       iframe.remove();
-    }, 1000);
+    };
+
+    // Wait for print dialog to close before cleaning up.
+    // Edge/Chromium fires print() asynchronously — a premature cleanup
+    // removes the iframe content and causes the dialog to flash and vanish.
+    let cleaned = false;
+    const safeCleanup = () => {
+      if (cleaned) return;
+      cleaned = true;
+      cleanup();
+    };
+
+    win.addEventListener('afterprint', safeCleanup);
+    // Fallback: clean up after 5 minutes in case afterprint never fires
+    setTimeout(safeCleanup, 300_000);
+
+    try {
+      win.focus();
+      win.print();
+    } catch {
+      safeCleanup();
+      window.open(url, '_blank');
+    }
   };
 }
