@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
+      injectRegister: false,
       registerType: 'autoUpdate',
       includeAssets: ['avatar.webp', 'icon-192.png', 'icon-512.png'],
       manifest: {
@@ -32,6 +33,8 @@ export default defineConfig({
         ],
       },
       workbox: {
+        skipWaiting: true,
+        clientsClaim: true,
         // Precache all built JS/CSS/HTML assets
         globPatterns: ['**/*.{js,css,html,woff2}'],
         // base.pdf is not in the repo — cache it at runtime on first fetch
