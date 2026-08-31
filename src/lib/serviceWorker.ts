@@ -32,8 +32,14 @@ export async function registerServiceWorker(): Promise<void> {
   });
 
   try {
-    const registration = await navigator.serviceWorker.register(
+    const serviceWorkerUrl = new URL(
       `${import.meta.env.BASE_URL}sw.js`,
+      window.location.origin,
+    );
+    serviceWorkerUrl.searchParams.set('build', import.meta.env.APP_BUILD_ID);
+
+    const registration = await navigator.serviceWorker.register(
+      serviceWorkerUrl,
       {
         scope: import.meta.env.BASE_URL,
         updateViaCache: 'none',

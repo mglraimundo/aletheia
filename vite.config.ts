@@ -2,8 +2,13 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
+const buildId = process.env.GITHUB_SHA ?? `local-${Date.now()}`
+
 export default defineConfig({
   base: '/',
+  define: {
+    'import.meta.env.APP_BUILD_ID': JSON.stringify(buildId),
+  },
   plugins: [
     react(),
     VitePWA({
@@ -35,6 +40,7 @@ export default defineConfig({
       workbox: {
         skipWaiting: true,
         clientsClaim: true,
+        inlineWorkboxRuntime: true,
         // Precache all built JS/CSS/HTML assets
         globPatterns: ['**/*.{js,css,html,woff2}'],
         // base.pdf is not in the repo — cache it at runtime on first fetch
