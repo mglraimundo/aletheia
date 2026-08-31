@@ -1,30 +1,10 @@
 import type { FormState } from '../../types';
 import { Textarea } from '../ui/Textarea';
-
-type ClinicalFieldKey =
-  | 'diagnosis'
-  | 'description'
-  | 'benefits'
-  | 'risks'
-  | 'alternatives'
-  | 'risksOfNoTreatment';
+import { CLINICAL_FIELDS_CONFIG } from './clinicalFieldConfig';
 
 interface Props {
   form: FormState;
   onChange: (field: keyof FormState, value: string) => void;
-}
-
-export const CLINICAL_FIELDS_CONFIG: { key: ClinicalFieldKey; label: string; maxChars: number }[] = [
-  { key: 'diagnosis',           label: 'Diagnóstico e/ou descrição da situação clínica',                          maxChars:  950 },
-  { key: 'description',         label: 'Descrição do ato/intervenção, sua natureza e objetivo',                   maxChars:  950 },
-  { key: 'benefits',            label: 'Benefícios',                                                              maxChars:  950 },
-  { key: 'risks',               label: 'Riscos graves e riscos frequentes',                                        maxChars:  800 },
-  { key: 'alternatives',        label: 'Atos/intervenções alternativas fiáveis e cientificamente reconhecidas',    maxChars:  800 },
-  { key: 'risksOfNoTreatment',  label: 'Riscos de não tratamento',                                                maxChars:  800 },
-];
-
-export function hasClinicalOverflow(form: FormState): boolean {
-  return CLINICAL_FIELDS_CONFIG.some(({ key, maxChars }) => form[key].length > maxChars);
 }
 
 export function ClinicalFields({ form, onChange }: Props) {

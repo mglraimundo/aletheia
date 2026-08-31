@@ -1,6 +1,7 @@
 import type { FormState, DoctorInfo, EyeSelection } from '../../types';
 import { EyeSelector } from './EyeSelector';
-import { ClinicalFields, hasClinicalOverflow } from './ClinicalFields';
+import { ClinicalFields } from './ClinicalFields';
+import { hasClinicalOverflow } from './clinicalFieldConfig';
 import { DoctorSection } from './DoctorSection';
 import { PatientSection } from './PatientSection';
 import { ActionButtons } from './ActionButtons';
